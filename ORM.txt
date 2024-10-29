@@ -1,0 +1,240 @@
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
+// User 表
+@Entity
+@Table(name = "User")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userId;
+    
+    private String username;
+    private String profession;
+    private String voice;
+    private String speechSpeed;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserLogin userLogin;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<LearningRecord> learningRecords;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserEnglishScore> englishScores;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Settings settings;
+
+    // Getters and Setters
+}
+
+// UserLogin 表
+@Entity
+@Table(name = "UserLogin")
+public class UserLogin {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int loginId;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    private String password;
+    private Timestamp lastLogin;
+
+    // Getters and Setters
+}
+
+// UserEnglishScore 表
+@Entity
+@Table(name = "UserEnglishScore")
+public class UserEnglishScore {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int scoreId;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    private String scoreType;
+    private int score;
+    private Date examDate;
+
+    // Getters and Setters
+}
+
+// LearningRecord 表
+@Entity
+@Table(name = "LearningRecord")
+public class LearningRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int recordId;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    private String studyContent;
+    private String studyFeedback;
+    private int studyTimes;
+
+    @OneToMany(mappedBy = "learningRecord", cascade = CascadeType.ALL)
+    private List<Dialogue> dialogues;
+
+    @OneToMany(mappedBy = "learningRecord", cascade = CascadeType.ALL)
+    private List<AudioRecord> audioRecords;
+
+    // Getters and Setters
+}
+
+// Scene 表
+@Entity
+@Table(name = "Scene")
+public class Scene {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int sceneId;
+    
+    private String sceneTopic;
+    private String sceneDescription;
+
+    @OneToMany(mappedBy = "scene", cascade = CascadeType.ALL)
+    private List<Dialogue> dialogues;
+
+    // Getters and Setters
+}
+
+// Dialogue 表
+@Entity
+@Table(name = "Dialogue")
+public class Dialogue {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int dialogueId;
+    
+    @ManyToOne
+    @JoinColumn(name = "record_id")
+    private LearningRecord learningRecord;
+
+    @ManyToOne
+    @JoinColumn(name = "scene_id")
+    private Scene scene;
+    
+    private String dialogueContent;
+    private int score;
+
+    @OneToOne(mappedBy = "dialogue", cascade = CascadeType.ALL)
+    private ScoreDetail scoreDetail;
+
+    // Getters and Setters
+}
+
+// AudioRecord 表
+@Entity
+@Table(name = "AudioRecord")
+public class AudioRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int audioId;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "record_id")
+    private LearningRecord learningRecord;
+    
+    private String audioPath;
+    private Timestamp uploadTime;
+
+    @OneToOne(mappedBy = "audioRecord", cascade = CascadeType.ALL)
+    private Transcription transcription;
+
+    // Getters and Setters
+}
+
+// Transcription 表
+@Entity
+@Table(name = "Transcription")
+public class Transcription {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int transcriptionId;
+    
+    @OneToOne
+    @JoinColumn(name = "audio_id")
+    private AudioRecord audioRecord;
+    
+    private String transcribedText;
+    private Timestamp transcriptionTime;
+
+    // Getters and Setters
+}
+
+// ScoreDetail 表
+@Entity
+@Table(name = "ScoreDetail")
+public class ScoreDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int scoreId;
+    
+    @OneToOne
+    @JoinColumn(name = "dialogue_id")
+    private Dialogue dialogue;
+    
+    private int pronunciationScore;
+    private int grammarScore;
+    private int fluencyScore;
+    private int overallScore;
+    private String feedback;
+
+    @OneToMany(mappedBy = "scoreDetail", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks;
+
+    // Getters and Setters
+}
+
+// Feedback 表
+@Entity
+@Table(name = "Feedback")
+public class Feedback {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int feedbackId;
+    
+    @ManyToOne
+    @JoinColumn(name = "score_id")
+    private ScoreDetail scoreDetail;
+    
+    private String suggestion;
+    private String improvementArea;
+
+    // Getters and Setters
+}
+
+// Settings 表
+@Entity
+@Table(name = "Settings")
+public class Settings {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int settingsId;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    private String transcriptionLanguage;
+    private String scoringStandard;
+    private boolean notificationPreference;
+
+    // Getters and Setters
+}
