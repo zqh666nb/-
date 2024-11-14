@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28b13160-5e50-47e7-8a62-3f4065ea28bd" name="Changes" comment="" />
+    <list default="true" id="28b13160-5e50-47e7-8a62-3f4065ea28bd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-server/src/main/java/come/sky/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-server/src/main/java/come/sky/controller/RecordingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/src/views/HomeView.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +25,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -33,40 +45,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Database Script.cook(1).sql.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.aihelper [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.sky-take-out [compile].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.aihelperApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/25311/Desktop/AiLanguageHelper/ai-server/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/25311/Desktop/AiLanguageHelper/pojo/src/main/java/com/atguigu/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Database Script.cook(1).sql.executor": "Run",
+    "Maven.aihelper [compile].executor": "Run",
+    "Maven.sky-take-out [compile].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.aihelperApplication.executor": "Debug",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/25311/Desktop/AiLanguageHelper/ai-server/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/25311/Desktop/AiLanguageHelper/pojo/src/main/java/com/atguigu/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;1bea3647-4775-49d7-869d-ba29445d77a2/schema/\&quot;sys\&quot;&quot;
+    "RunConfigurationTargetLRU": [
+      "1bea3647-4775-49d7-869d-ba29445d77a2/schema/\"sys\""
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -122,6 +136,7 @@
       <workItem from="1731474353094" duration="592000" />
       <workItem from="1731489663908" duration="10553000" />
       <workItem from="1731501289677" duration="367000" />
+      <workItem from="1731576381743" duration="1544000" />
     </task>
     <servers />
   </component>

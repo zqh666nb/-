@@ -1,184 +1,92 @@
 <script setup>
 import { ref } from 'vue'
 
-// 弹出层 设置
+// 控制弹出层显示
 const show = ref(false)
 const showPopup = () => {
   show.value = true
 }
 
-// 弹出层 翻译
 const show2 = ref(false)
 const showPopup2 = () => {
   show2.value = true
 }
 
-// 弹出层 点击说话
 const show3 = ref(false)
 const showPopup3 = () => {
   show3.value = true
 }
 
 // 滑动条
-const onChange = value => console.log('当前值：' + value) // 使用 console.log() 替代 showToast
+const onChange = value => console.log('当前值：' + value)
 const value = ref(50)
+
+// 录音功能
+let mediaRecorder
+let audioChunks = []
+const isRecording = ref(false)
+
+// 开始录音
+const startRecording = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    mediaRecorder = new MediaRecorder(stream)
+    mediaRecorder.start()
+    isRecording.value = true
+
+    // 收集音频数据
+    mediaRecorder.ondataavailable = event => {
+      audioChunks.push(event.data)
+    }
+  } catch (error) {
+    console.error('录音失败:', error)
+  }
+}
+
+const stopRecording = () => {
+  mediaRecorder.stop()
+  isRecording.value = false
+
+  mediaRecorder.onstop = async () => {
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' })
+
+    // 创建 FormData 用于上传
+    const formData = new FormData()
+    formData.append('file', audioBlob, 'recording.wav')
+
+    // 上传音频文件到后端
+    try {
+      const response = await fetch(
+        'http://localhost:8080/api/recordings/upload',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+
+      const result = await response.text()
+      console.log(result)
+    } catch (error) {
+      console.error('上传录音失败:', error)
+    }
+
+    // 清空录音数据
+    audioChunks = []
+  }
+}
 </script>
 
 <template>
   <main>
-    <div class="header">
-      <div class="avatar">
-        <router-link to="/user">
-          <img
-            src="https://gd-hbimg.huaban.com/fbfc77d24b09f19eda0a2757262929647dc41525278a-06aA6p_fw658"
-            alt=""
-          />
-        </router-link>
-      </div>
-      <div class="title">
-        <span>SPEAK WITH AI</span>
-      </div>
-      <div></div>
-    </div>
-    <div class="content">
-      <div class="avatar">
-        <img
-          src="https://ts1.cn.mm.bing.net/th/id/R-C.a3326dfea8ea5544ebd406b824137ee9?rik=c6C3lRiXIQoEYg"
-          alt=""
-        />
-      </div>
-      <div class="rtext">
-        <span> Do you have a favorite board game? </span>
-        <div class="tags-group">
-          <div class="font1">
-            <font class="iconfont icon-zhongyingwen1"></font>
-          </div>
-
-          <font class="iconfont icon-laba font2"></font>
-        </div>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="avatar">
-        <img
-          src="https://ts1.cn.mm.bing.net/th/id/R-C.a3326dfea8ea5544ebd406b824137ee9?rik=c6C3lRiXIQoEYg"
-          alt=""
-        />
-      </div>
-      <div class="rtext">
-        <span> Do you have a favorite board game? </span>
-        <div class="tags-group">
-          <div class="font1">
-            <font class="iconfont icon-zhongyingwen1"></font>
-          </div>
-
-          <font class="iconfont icon-laba font2"></font>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="content"
-      style="display: flex; align-items: center; justify-content: space-between"
-    >
-      <!-- 文本内容部分 -->
-      <div class="rtext1">
-        <!-- 用户的文本内容 -->
-        <span> Do you have a favorite board game? </span>
-
-        <!-- 标签组部分 -->
-        <div
-          class="tags-group"
-          style="display: flex; align-items: center; gap: 5px; margin-top: 5px"
-        >
-          <!-- 语言图标 -->
-          <div class="font1">
-            <font class="iconfont icon-zhongyingwen1"></font>
-          </div>
-          <!-- 口语纠错与评分按钮 -->
-          <button
-            style="
-              padding: 0;
-              border: none;
-              background: none;
-              font-size: calc(1em - 2px);
-              cursor: pointer;
-            "
-          >
-            口语纠错与评分
-          </button>
-          <!-- 扬声器图标 -->
-          <font class="iconfont icon-laba font2"></font>
-        </div>
-      </div>
-      <!-- 头像部分 -->
-      <div class="avatar">
-        <!-- 头像图片 -->
-        <img
-          src="https://ts1.cn.mm.bing.net/th/id/R-C.a3326dfea8ea5544ebd406b824137ee9?rik=c6C3lRiXIQoEYg"
-          alt=""
-        />
-      </div>
-    </div>
-
+    <!-- 页面内容 -->
     <div class="bottom">
-      <div class="tags">
-        <span>示例回答</span>
-        <span @click="showPopup2">翻译</span>
-        <span @click="showPopup">场景选择</span>
-      </div>
       <button class="btn-bottom" @click="showPopup3">
         <font class="iconfont icon-yuyin1"></font>
         点击说话
       </button>
     </div>
 
-    <!-- 弹出层 场景选择 -->
-    <van-popup
-      v-model:show="show"
-      position="bottom"
-      :style="{ padding: '20px' }"
-    >
-      <span class="title">场景选择</span>
-      <div class="setting">
-        <span class="title">场景选择</span>
-        <div class="row">
-          <span class="active">偶遇</span>
-          <span class="active">餐厅</span>
-          <span class="active">课堂</span>
-        </div>
-      </div>
-    </van-popup>
-
-    <!-- 弹出层 翻译 -->
-    <van-popup
-      v-model:show="show2"
-      position="bottom"
-      :style="{ padding: '20px' }"
-    >
-      <div class="translation">
-        <div class="close">
-          <span class="icon" @click="show2 = false">关闭</span>
-        </div>
-        <textarea
-          class="textarea"
-          placeholder="请输入中文,Al熊熊火速翻译中..."
-          rows="10"
-        ></textarea>
-        <div class="btn-group">
-          <div class="l">
-            <span>跟读对话</span>
-          </div>
-          <div class="r">
-            <span>翻译</span>
-            <span>发送</span>
-          </div>
-        </div>
-      </div>
-    </van-popup>
-
-    <!-- 弹出层 点击说话 -->
+    <!-- 弹出层：录音 -->
     <van-popup
       v-model:show="show3"
       position="bottom"
@@ -188,14 +96,14 @@ const value = ref(50)
         <div class="close">
           <span class="icon" @click="show3 = false">X</span>
         </div>
-
         <div class="btn-group">
           <div class="l">
-            <span>确认发送</span>
-          </div>
-          <div class="r">
-            <span>暂停</span>
-            <span>重录</span>
+            <button @click="startRecording" :disabled="isRecording">
+              开始录音
+            </button>
+            <button @click="stopRecording" :disabled="!isRecording">
+              停止录音并下载
+            </button>
           </div>
         </div>
       </div>
@@ -204,6 +112,7 @@ const value = ref(50)
 </template>
 
 <style scoped lang="less">
+/* 样式保持不变 */
 img {
   width: 100%;
   height: 100%;
@@ -212,7 +121,6 @@ img {
 .header {
   width: 100%;
   display: grid;
-  //justify-content: space-between;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 20px;
   border-bottom: 1px solid #f0f0f0;
@@ -317,7 +225,6 @@ img {
   position: absolute;
   bottom: 0;
   left: 0;
-  //background: red;
   z-index: 9;
   padding: 20px;
   box-shadow: 0px 0px 20px #efefef;
@@ -326,7 +233,6 @@ img {
 
   .tags {
     font-size: 30px;
-    //font-weight: 500;
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
@@ -348,7 +254,6 @@ img {
   .btn-bottom {
     width: 100%;
     height: 100px;
-    // border: none;
     border: 2px solid black;
     border-radius: 20px;
     background: #f3f3f3;
@@ -372,56 +277,11 @@ img {
     font-weight: 600;
   }
 
-  //设置
-  > .setting {
-    background: white;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 1px 1px 20px #e9e9e9;
-    display: flex;
-    flex-direction: column;
-
-    > * {
-      //padding: 20px;
-      margin: 20px 0;
-    }
-
-    > .title {
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 80px;
-    }
-
-    > .row {
-      > span {
-        margin-right: 20px;
-        font-size: 30px;
-        display: inline-block;
-        border: 1px solid #eee;
-        padding: 10px 60px;
-        border-radius: 20px;
-      }
-
-      > .active {
-        border: 4px solid #000000;
-      }
-    }
-  }
-
-  //翻译
-  > .translation {
+  .translation {
     > .close {
       width: 100%;
       display: flex;
       justify-content: right;
-
-      .icon {
-      }
-    }
-
-    > .textarea {
-      border: 0;
-      font-size: 30px;
     }
 
     > .btn-group {
@@ -434,12 +294,6 @@ img {
         background: #f3f3f3;
         padding: 10px 20px;
         border-radius: 20px;
-      }
-
-      > .r {
-        :last-child {
-          margin-left: 20px;
-        }
       }
     }
   }
