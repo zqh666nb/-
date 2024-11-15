@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="28b13160-5e50-47e7-8a62-3f4065ea28bd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-server/src/main/java/come/sky/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ai-server/src/main/java/come/sky/controller/RecordingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ai-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ai-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vue-project (1) (1)/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vue-project (1) (1)/src/views/HomeView.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="D:\apache-maven-3.6.3" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2o3Wa3ICajnorI3fbi0Ks3W1Tg6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Database Script.cook(1).sql.executor": "Run",
+    "Maven.aihelper [compile].executor": "Run",
+    "Maven.sky-take-out [compile].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.aihelperApplication.executor": "Debug",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/25311/Desktop/AiLanguageHelper/ai-server/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "C:/Users/25311/Desktop/AiLanguageHelper/pojo/src/main/java/com/atguigu/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ],
+    "RunConfigurationTargetLRU": [
+      "1bea3647-4775-49d7-869d-ba29445d77a2/schema/\"sys\""
+    ]
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\25311\Desktop\AiLanguageHelper\ai-server\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\25311\Desktop\AiLanguageHelper\ai-server\src\main\resources" />
+      <recent name="C:\Users\25311\Desktop\AiLanguageHelper\ai-server\src\main\java" />
+      <recent name="C:\Users\25311\Desktop\AiLanguageHelper\pojo" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.aihelperApplication">
+    <configuration name="cook(1).sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/../cook(1).sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="1bea3647-4775-49d7-869d-ba29445d77a2" namespace="schema/&quot;sys&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="aihelperApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ai-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="come.sky.aihelperApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Database Script.cook(1).sql" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="28b13160-5e50-47e7-8a62-3f4065ea28bd" name="Changes" comment="" />
+      <created>1730098804274</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730098804274</updated>
+      <workItem from="1730098805336" duration="3095000" />
+      <workItem from="1730529282020" duration="335000" />
+      <workItem from="1731330259344" duration="9896000" />
+      <workItem from="1731474353094" duration="592000" />
+      <workItem from="1731489663908" duration="10553000" />
+      <workItem from="1731501289677" duration="367000" />
+      <workItem from="1731576381743" duration="1544000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/atguigu/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

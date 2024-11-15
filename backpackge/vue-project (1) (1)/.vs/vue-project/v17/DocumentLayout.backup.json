@@ -1,0 +1,213 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\86183\\Desktop\\vue-project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record1.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\record1.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\router\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\router\\index.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\record.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record3.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\record3.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record2.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\record2.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\HomeView.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\HomeView.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\language.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\language.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\setting.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\setting.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\UserView.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\views\\UserView.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\86183\\Desktop\\vue-project\\src\\App.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\App.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "record.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record.vue",
+              "RelativeDocumentMoniker": "src\\views\\record.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record.vue",
+              "RelativeToolTip": "src\\views\\record.vue",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAFgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T07:42:13.858Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "record3.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record3.vue",
+              "RelativeDocumentMoniker": "src\\views\\record3.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record3.vue",
+              "RelativeToolTip": "src\\views\\record3.vue",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMAAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T10:42:05.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "record2.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record2.vue",
+              "RelativeDocumentMoniker": "src\\views\\record2.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record2.vue",
+              "RelativeToolTip": "src\\views\\record2.vue",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMAAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T10:41:44.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "record1.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record1.vue",
+              "RelativeDocumentMoniker": "src\\views\\record1.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\record1.vue",
+              "RelativeToolTip": "src\\views\\record1.vue",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T10:41:27.832Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "README.md",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-11-11T10:37:18.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "language.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\language.vue",
+              "RelativeDocumentMoniker": "src\\views\\language.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\language.vue",
+              "RelativeToolTip": "src\\views\\language.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T06:46:10.781Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserView.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\UserView.vue",
+              "RelativeDocumentMoniker": "src\\views\\UserView.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\UserView.vue",
+              "RelativeToolTip": "src\\views\\UserView.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T06:31:17.036Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeView.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\HomeView.vue",
+              "RelativeDocumentMoniker": "src\\views\\HomeView.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\HomeView.vue",
+              "RelativeToolTip": "src\\views\\HomeView.vue",
+              "ViewState": "AgIAANgAAAAAAAAAAAAAAOUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T06:25:10.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "index.js",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\router\\index.js",
+              "RelativeDocumentMoniker": "src\\router\\index.js",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\router\\index.js",
+              "RelativeToolTip": "src\\router\\index.js",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAwCIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-11T05:59:00.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "setting.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\setting.vue",
+              "RelativeDocumentMoniker": "src\\views\\setting.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\views\\setting.vue",
+              "RelativeToolTip": "src\\views\\setting.vue",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAH4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T07:11:29.572Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "App.vue",
+              "DocumentMoniker": "C:\\Users\\86183\\Desktop\\vue-project\\src\\App.vue",
+              "RelativeDocumentMoniker": "src\\App.vue",
+              "ToolTip": "C:\\Users\\86183\\Desktop\\vue-project\\src\\App.vue",
+              "RelativeToolTip": "src\\App.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2024-11-11T05:59:21.778Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

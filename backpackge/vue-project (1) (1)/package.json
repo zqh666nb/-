@@ -1,0 +1,42 @@
+{
+  "name": "vue-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
+    "serve": "vue-cli-service serve",
+    "test": "vue-cli-service test"
+  },
+  "dependencies": {
+    "ali-oss": "^6.21.0",
+    "amfe-flexible": "^2.2.1",
+    "axios": "^1.7.7",
+    "normalize.css": "^8.0.1",
+    "pinia": "^2.2.4",
+    "recordrtc": "^5.6.2",
+    "vant": "^4.9.8",
+    "vue": "^3.3.0",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@vant/auto-import-resolver": "^1.2.1",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vue/compiler-sfc": "^3.5.12",
+    "@vue/eslint-config-prettier": "^10.0.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-vue": "^9.29.0",
+    "less": "^4.2.0",
+    "postcss": "^8.4.47",
+    "postcss-pxtorem": "^6.1.0",
+    "prettier": "^3.3.3",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
+    "vite": "^5.4.10"
+  }
+}
