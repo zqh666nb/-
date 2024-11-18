@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #e0f7fa;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.chat {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.bubble {
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.action-button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #b2ebf2;
+  color: #000;
+}
+
+.speak-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #80deea;
+  color: #fff;
+  text-align: center;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}

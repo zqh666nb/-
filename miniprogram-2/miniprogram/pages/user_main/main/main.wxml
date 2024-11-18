@@ -1,0 +1,13 @@
+<view class="container">
+  <view class="avatar-container">
+    <image src="{{avatarUrl}}" class="avatar" bindtap="chooseAvatar"></image>
+  </view>
+  <view class="name">{{nickName}}</view>
+  <view class="background2"> 
+    <view class="footer"> 
+      <button bindtap="navigateToperson1" class="bottom-fix2" style="width: 90%">语言水平</button>
+      <button bindtap="navigateToperson2" class="bottom-fix2" style="width: 90%">学习记录</button>
+      <button bindtap="navigateToperson3" class="bottom-fix2" style="width: 90%">个人设置</button>
+    </view> 
+  </view>
+</view>

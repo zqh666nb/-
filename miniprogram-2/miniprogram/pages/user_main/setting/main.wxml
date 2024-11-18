@@ -1,0 +1,15 @@
+<view class="profile-container">
+  <view class="header">
+    <text class="profile-title">个人资料编辑</text>
+  </view>
+  <view class="profile-item">
+    <text class="profile-label">头像</text>
+    <image class="profile-avatar" src="{{avatarUrl}}" mode="aspectFit" bindtap="chooseAvatar"></image>
+  </view>
+  <view class="profile-item">
+    <text class="profile-label">昵称</text>
+    <input class="profile-nickname" value="{{nickName}}" bindinput="updateNickName"/>
+  </view>
+
+  <button class="save-button" bindtap="saveChanges">保存修改</button>
+</view>

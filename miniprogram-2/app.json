@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/main/main",
+    "pages/user_main/main/main",
+    "pages/user_main/language/main",
+    "pages/user_main/records/main",
+    "pages/user_main/settings/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarTitleText": "小程序",
+    "navigationStyle": "default"
+  },
+  "style": {},
+  "sitemapLocation": "sitemap.json"
+} 

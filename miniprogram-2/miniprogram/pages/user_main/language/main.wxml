@@ -1,0 +1,18 @@
+<view class="profile-container">
+  <view class="header">
+    <text class="profile-title">语言水平</text>
+  </view>
+  <view class="profile-item">
+    <text class="profile-label">四级成绩</text>
+    <input class="profile-input" value="{{cet4}}" bindinput="onInputChange" data-field="cet4" />
+  </view>
+  <view class="profile-item">
+    <text class="profile-label">六级成绩</text>
+    <input class="profile-input" value="{{cet6}}" bindinput="onInputChange" data-field="cet6" />
+  </view>
+  <view class="profile-item">
+    <text class="profile-label">词汇量水平</text>
+    <input class="profile-input" value="{{vocab}}" bindinput="onInputChange" data-field="vocab" />
+  </view>
+  <button class="save-button" bindtap="updateDatabase">保存修改</button>
+</view>

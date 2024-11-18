@@ -1,0 +1,74 @@
+.container {
+  position: relative; /* 为了让内容可以覆盖在图片上 */
+  display: flex;
+  flex-direction: column; /* 垂直排列子元素 */
+  width: 100%;
+  height: 100vh; /* 设置高度为视口高度 */
+  background-color: rgb(204, 248, 208);
+}
+.background2 {
+  position: absolute; /* 使用绝对定位 */
+  flex: 1;
+  top: 20%; 
+  background-color: rgb(255, 255, 255);
+  height: 70%;
+  border: 1px solid rgb(255, 255, 255); /* 边框颜色和宽度 */
+  width: 100%; /* 矩形宽度占满整个容器 */
+}
+
+.bottom-button {
+  background-color: transparent; /* 背景透明 */
+  border: 1px solid rgb(202, 209, 211); /* 边框颜色和宽度 */
+  color: rgb(33, 154, 187); /* 字体颜色 */
+  padding: 10px 5px;
+  border-radius: 5px; /* 圆角 */
+  cursor: pointer; /* 鼠标指针样式 */
+  font-size: 10px; /* 字体大小 */
+}
+.avatar-container {
+  position: absolute; /* 使用绝对定位 */
+  top: 2%;
+}
+.avatar {
+  width: 80px; /* 头像宽度 */
+  height: 80px; /* 头像高度 */
+  border-radius: 50%; /* 圆形效果 */
+  object-fit: cover; /* 保持比例裁剪 */
+  background-color:  rgb(175, 175, 175); 
+  border: 2px solid white; /* 白色边框 */
+}
+.name {
+  position: absolute; /* 使用绝对定位 */
+  margin-top: 10px; /* 与上一个元素的距离 */
+  top: 12%;
+  color: rgb(62, 62, 62);
+  font-size: 25px;
+  border-radius: 5px; /* 圆角 */
+}
+
+.words {
+  position: absolute; /* 使用绝对定位 */
+  top: 17%;
+  color: rgb(62, 62, 62);
+  font-size: 15px;
+  border-radius: 5px; /* 圆角 */
+  text-align: center; /* 文本居中 */
+}
+.footer {
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-direction: column; /* 设置为垂直排列 */
+  margin: 10px; 
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
+}
+.bottom-fix2 {
+  background-color: transparent;
+  color: rgb(12, 12, 12);
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0; /* 去掉按钮外的间距 */
+  border-bottom: 1px solid black; /* 为每个按钮添加底部黑色分割线 */
+  text-align: left; /* 确保文字居左 */
+}

@@ -1,0 +1,7 @@
+<view class="profile-container">
+  <view class="header">
+    <text class="profile-title">学习记录</text>
+  </view>
+  <view class="background">
+  </view>
+</view>
