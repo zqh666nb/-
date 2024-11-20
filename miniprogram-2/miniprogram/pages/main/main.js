@@ -1,4 +1,6 @@
 const app = getApp();
+const plugin = requirePlugin('WechatSI');
+const manager = plugin.getRecordRecognitionManager();
 
 Page({
   data: {
@@ -9,6 +11,39 @@ Page({
 
   onLoad() {
     this.getAccessToken();
+    this.initRecord();
+  },
+
+  // 初始化语音识别
+  initRecord() {
+    const that = this;
+    manager.onRecognize = function (res) {
+      console.log('current result', res.result);
+    };
+    manager.onStop = function (res) {
+      console.log('record file path', res.tempFilePath);
+      console.log('result', res.result);
+      if (res.result) {
+        that.setData({
+          userInput: res.result,
+        });
+      }
+    };
+    manager.onError = function (res) {
+      console.error('error msg', res.msg);
+    };
+  },
+
+  // 开始录音
+  startRecord() {
+    manager.start({
+      lang: 'en_US', // 可以根据需要设置语言
+    });
+  },
+
+  // 停止录音
+  stopRecord() {
+    manager.stop();
   },
 
   // 获取百度Access Token

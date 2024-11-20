@@ -9,5 +9,6 @@
   <view class="input-container">
     <input class="chat-input" placeholder="输入消息..." value="{{userInput}}" bindinput="onInputChange" />
     <button class="send-button" bindtap="sendMessage">发送</button>
+    <button class="record-button" bindtouchstart="startRecord" bindtouchend="stopRecord">按住说话</button>
   </view>
 </view>
