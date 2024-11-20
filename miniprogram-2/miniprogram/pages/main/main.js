@@ -1,23 +1,83 @@
-const app = getApp()
+const app = getApp();
+
 Page({
   data: {
-    userAvatar: '',
-    messages: [
-      { avatar: '/images/avatar1.png', text: "Hey, friend! How are you today?", color: '#bbdefb' },
-      { avatar: '/images/avatar2.png', text: "Excuse me. Can you tell me the correct time?", color: '#bbdefb' },
-      { avatar: '/images/avatar3.png', text: "Of course, it's 5 o'clock now", color: '#fff9c4' },
-      { avatar: '/images/avatar4.png', text: "What do you like to do outdoors?", color: '#bbdefb' }
-    ]
+    userInput: '',
+    chatHistory: [],
+    accessToken: '',
   },
-  onLoad: function () {
-    // 页面加载时的逻辑
-    wx.getUserProfile({
-      desc: '用于显示用户头像',
-      success: (res) => {
-        this.setData({
-          userAvatar: res.userInfo.avatarUrl
-        });
-      }
+
+  onLoad() {
+    this.getAccessToken();
+  },
+
+  // 获取百度Access Token
+  getAccessToken() {
+    const that = this;
+    wx.request({
+      url: 'https://aip.baidubce.com/oauth/2.0/token',
+      method: 'POST',
+      data: {
+        grant_type: 'client_credentials',
+        client_id: 'y6UejyROGJJ0f21LGcNbQ1jZ',
+        client_secret: 'OQLkw7iiEaXEsV9mwMa2pW7uMtjvO7BU',
+      },
+      header: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      success(res) {
+        if (res.data.access_token) {
+          that.setData({
+            accessToken: res.data.access_token,
+          });
+        } else {
+          console.error('获取Access Token失败，响应数据:', res.data);
+        }
+      },
+      fail(err) {
+        console.error('Access Token 请求失败:', err);
+      },
     });
-  }
+  },
+
+  // 发送消息
+  sendMessage() {
+    const that = this;
+    const { userInput, accessToken } = this.data;
+    if (!userInput.trim()) return;
+
+    // 更新聊天记录
+    this.setData({
+      chatHistory: [...this.data.chatHistory, { role: 'user', content: userInput }],
+      userInput: '',
+    });
+
+    // 调用AI服务
+    wx.request({
+      url: `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=${accessToken}`,
+      method: 'POST',
+      data: {
+        messages: [{ role: 'user', content: userInput }],
+      },
+      header: {
+        'Content-Type': 'application/json',
+      },
+      success(res) {
+        const aiResponse = res.data.result;
+        that.setData({
+          chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+        });
+      },
+      fail(err) {
+        console.error('调用AI服务失败:', err);
+      },
+    });
+  },
+
+  // 输入框内容变化
+  onInputChange(e) {
+    this.setData({
+      userInput: e.detail.value,
+    });
+  },
 });

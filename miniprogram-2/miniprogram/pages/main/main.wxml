@@ -1,26 +1,13 @@
-<view class="container">
-  <view class="header">
-    <image class="user-avatar" src="{{userAvatar}}" mode="aspectFill"></image>
-    <text class="title">语种选择</text>
-    <image class="icon" src="/images/settings-icon.png"></image>
-  </view>
-  <view class="chat">
-    <view class="message" wx:for="{{messages}}" wx:key="index" wx:for-item="msg">
-      <image class="avatar" src="{{msg.avatar}}"></image>
-      <view class="bubble" style="background-color: {{msg.color}}">
-        <text>{{msg.text}}</text>
-        <image class="icon" src="/images/sound-icon.png"></image>
+<view class="chat-container">
+  <scroll-view scroll-y="true" class="chat-history">
+    <block wx:for="{{chatHistory}}" wx:key="index">
+      <view class="chat-message {{item.role}}">
+        <text>{{item.role === 'user' ? '我' : 'AI'}}: {{item.content}}</text>
       </view>
-    </view>
+    </block>
+  </scroll-view>
+  <view class="input-container">
+    <input class="chat-input" placeholder="输入消息..." value="{{userInput}}" bindinput="onInputChange" />
+    <button class="send-button" bindtap="sendMessage">发送</button>
   </view>
-  <view class="footer">
-    <button class="action-button">示例回答</button>
-    <button class="action-button">场景选择</button>
-    <button class="action-button">翻译</button>
-    <button class="action-button">设置</button>
-  </view>
-  <button class="speak-button">
-    <image class="icon" src="/images/mic-icon.png"></image>
-    点击说话
-  </button>
 </view>
