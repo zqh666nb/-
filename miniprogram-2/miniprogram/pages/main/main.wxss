@@ -1,156 +1,46 @@
-/* 设置整体容器 */
+/* pages/main/main.wxss */
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 }
 
-/* 聊天记录区域 */
 .chat-history {
   flex: 1;
   padding: 10px;
-  overflow-y: scroll;  /* 允许聊天记录滚动 */
-  padding-bottom: 120px; /* 留出空间给发送按钮 */
-  margin-top: 60px; /* 留出空间给固定的语言选择按钮 */
+  overflow-y: auto;
 }
 
-/* 聊天消息气泡 */
 .chat-message {
-  display: flex;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 15px;
-  align-items: center; /* 垂直居中对齐 */
-  padding: 5px 10px; /* 适当的内边距 */
-  white-space: pre-wrap; /* 允许文本换行 */
-  word-wrap: break-word; /* 自动换行 */
-  word-break: break-word; /* 长单词自动换行 */
-  max-width: 70%; /* 设置消息泡泡最大宽度为屏幕的 80% */
-  margin-left: 10%; /* 距离容器左边 80% 位置 */
+  margin-bottom: 10px;
 }
 
-/* 用户消息气泡（我）右对齐 */
 .chat-message.user {
-  background-color: #b3e5fc;
-}
-/* AI消息气泡（AI）左对齐 */
-.chat-message.ai {
-  background-color: #b3fcd1;
-}
-.avatar {
-  width: 50px;                /* 头像宽度 */
-  height: 50px;               /* 头像高度 */
-  border-radius: 50%;         /* 圆形头像 */
-  margin: 0 10px;             /* 头像与消息的间距 */
-}
-.avatar.user {
-  margin-left: 80%;
-  background-color: #ffc097;
-}
-.avatar.ai {
-  background-color: #ffb4c1;
+  text-align: right;
 }
 
-/* 每个消息的文本 */
-.chat-message text {
-  font-size: 14px;
-  color: #333;
-  white-space: pre-wrap;  /* 保持文本中的换行符和空格 */
-  word-wrap: break-word;  /* 长单词换行 */
+.chat-message.ai {
+  text-align: left;
 }
-/* 输入框区域 */
+
 .input-container {
   display: flex;
-  align-items: center;
   padding: 10px;
-  background-color: #fff;
-  border-top: 1px solid #e1e1e1;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #ffffff;
-  z-index: 1000;  /* 确保输入框区域在最上层 */
+  border-top: 1px solid #ccc;
 }
 
-/* 输入框 */
 .chat-input {
   flex: 1;
-  height: 40px;
-  padding: 0 10px;
-  margin-right: 10px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  background-color: #fafafa;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-<<<<<<< HEAD
 .send-button, .record-button {
   margin-left: 10px;
   padding: 5px 10px;
   background-color: #007aff;
-=======
-/* 发送按钮 */
-.send-button {
-  padding: 10px 20px;
-  background-color: #92c1eb;
->>>>>>> 7cf9add66e386844509c34d1ea84396fa3658bdd
   color: white;
-  font-size: 16px;
   border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-/* 发送按钮的hover效果 */
-.send-button:hover {
-  background-color: #1565c0;
-}
-
-/* 发送按钮禁用状态 */
-.send-button:disabled {
-  background-color: #b0bec5;
-  cursor: not-allowed;
-}
-/* 语种选择按钮 */
-.language-select-button {
-  position: fixed;
-  left: 50%; /* 居中 */
-  transform: translateX(-50%); /* 精确居中 */
-  padding: 10px;
-  color: rgb(139, 189, 255);
-  background-color: #f5f5f5;
-  border-radius: 0; /* 取消圆角，让按钮横向全屏 */
   border-radius: 5px;
-  font-size: 20px;
-  text-align: center;
-}
-.buttom-footer {
-  position: relative;
-}
-
-/* 场景选择按钮样式 */
-.select-container {
-  display: flex;            /* 横向排列按钮 */
-  padding: 0px 10px; 
-  justify-content: space-between; /* 确保按钮水平均匀分布 */
-  position: fixed;          /* 固定位置 */
-  gap: 10px;                           /* 设置按钮之间的间距为 10px */
-  bottom: 63px;             /* 固定在输入框上方 20px */
-  width: 95%;
-  background-color: #ffffff;
-}
-
-/* 场景选择按钮 */
-.select-button {
-  padding: 5px 0px;                  /* 按钮的内边距 */
-  color: #ffffff;
-  border: 2px solid black;              /* 添加黑色2px边框 */
-  border-radius: 25px;                  /* 圆角 */
-  font-size: 16px;
-  text-align: center;
-  background-color: #949494;
-  cursor: pointer;
-  margin: 0 10px;                        /* 按钮之间的间距，左右 5px（使得按钮之间总共间距为 10px） */
 }

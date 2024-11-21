@@ -1,19 +1,11 @@
 <view class="chat-container">
   <scroll-view scroll-y="true" class="chat-history">
     <block wx:for="{{chatHistory}}" wx:key="index">
-      <image class="avatar {{item.role}}" src="{{item.role === 'user' ? '/images/001.png' : '/images/002.png'}}" />
       <view class="chat-message {{item.role}}">
         <text>{{item.role === 'user' ? '我' : 'AI'}}: {{item.content}}</text>
       </view>
     </block>
   </scroll-view>
-  <button class="language-select-button" style="width:110%" bindtap="showSceneSelect">语种选择</button>
-  <view class="select-container">
-    <button class="select-button" bindtap="Select1">场景选择</button>
-    <button class="select-button" bindtap="Select2">对话难度</button>
-    <button class="select-button" bindtap="Select2">示例回答</button>
-    <button class="select-button" bindtap="Select2">翻译</button>
-  </view>
   <view class="input-container">
     <input class="chat-input" placeholder="输入消息..." value="{{userInput}}" bindinput="onInputChange" />
     <button class="send-button" bindtap="sendMessage">发送</button>

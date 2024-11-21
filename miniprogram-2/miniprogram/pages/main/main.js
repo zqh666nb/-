@@ -7,64 +7,8 @@ Page({
     userInput: '',
     chatHistory: [],
     accessToken: '',
-    lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
-    scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
-    levels: ['初级', '中级', '高级'],  // 可选择的语言列表
   },
-  showSceneSelect() {
-    const that = this;
-    wx.showActionSheet({
-      itemList: that.data.lauguages,
-      success(res) {
-        // 选择的场景索引是 res.tapIndex
-        const selectedlauguages = that.data.lauguages[res.tapIndex];
-        wx.showToast({
-          title: `选择了：${selectedlauguages}`,
-          icon: 'none',
-        });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
-      },
-      fail(res) {
-        console.log('弹窗选择失败', res);
-      }
-    });
-  },
-  Select1() {
-    const that = this;
-    wx.showActionSheet({
-      itemList: that.data.scenes,
-      success(res) {
-        // 选择的场景索引是 res.tapIndex
-        const selectedScene = that.data.scenes[res.tapIndex];
-        wx.showToast({
-          title: `选择了：${selectedScene}`,
-          icon: 'none',
-        });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
-      },
-      fail(res) {
-        console.log('弹窗选择失败', res);
-      }
-    });
-  },
-  Select2() {
-    const that = this;
-    wx.showActionSheet({
-      itemList: that.data.levels,
-      success(res) {
-        // 选择的场景索引是 res.tapIndex
-        const selectedlevels = that.data.levels[res.tapIndex];
-        wx.showToast({
-          title: `选择了：${selectedlevels}`,
-          icon: 'none',
-        });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
-      },
-      fail(res) {
-        console.log('弹窗选择失败', res);
-      }
-    });
-  },
+
   onLoad() {
     this.getAccessToken();
     this.initRecord();
@@ -171,12 +115,4 @@ Page({
       userInput: e.detail.value,
     });
   },
-  scrollToBottom: function() {
-    const query = wx.createSelectorQuery();
-    query.select('.chat-history').boundingClientRect((rect) => {
-      this.setData({
-        scrollTop: rect.height // 设置 scrollTop 为 scroll-view 的高度
-      });
-    }).exec();
-  }
 });
