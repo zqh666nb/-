@@ -171,6 +171,11 @@ Page({
       userInput: e.detail.value,
     });
   },
+  navigateTomain: function() {
+    wx.navigateTo({
+      url: '/pages/user_main/main/main'
+    });
+  },
   scrollToBottom: function() {
     const query = wx.createSelectorQuery();
     query.select('.chat-history').boundingClientRect((rect) => {
