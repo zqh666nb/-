@@ -1,0 +1,43 @@
+.header {
+  display: flex; /* 使用 Flexbox 布局 */
+  align-items: center; /* 垂直居中 */
+  padding: 10px;
+}
+
+.profile-title {
+  flex-grow: 1; /* 让 profile-title 占据剩余空间 */
+  text-align: center; /* 使文字水平居中 */
+  font-size: 20px; /* 设置字体大小 */
+  color:rgb(35, 190, 233);
+}
+.profile-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-left: 8px; /* 左侧内边距 2px */
+  padding-right: 8px; /* 右侧内边距 2px */
+}
+
+.profile-label {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold; /* 使文字加粗 */
+}
+
+.profile-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.profile{
+  font-size: 16px;
+  color: #666;
+}
+.background{
+  background-color: #ebddb6; /* 米黄色背景 */
+  padding: 10px; /* 添加一些内边距 */
+  min-height: 100vh; /* 设置最小高度为视口高度，确保内容区域覆盖底部 */
+}
