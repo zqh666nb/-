@@ -25,17 +25,17 @@ Page({
       console.error('用户信息不完整');
     }
   },
-  navigateToperson1: function() {
+  navigateToperson1: function () {
     wx.navigateTo({
       url: '/pages/user_main/language/main'
     });
   },
-  navigateToperson2: function() {
+  navigateToperson2: function () {
     wx.navigateTo({
       url: '/pages/user_main/records/main'
     });
   },
-  navigateToperson3: function() {
+  navigateToperson3: function () {
     wx.navigateTo({
       url: '/pages/user_main/setting/main'
     });

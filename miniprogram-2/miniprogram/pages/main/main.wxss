@@ -8,14 +8,10 @@
 .chat-history {
   flex: 1;
   padding: 10px;
-<<<<<<< HEAD
-  overflow-y: auto;
-=======
   overflow-y: scroll;  /* 允许聊天记录滚动 */
   padding-bottom: 150px; /* 留出空间给发送按钮 */
   margin-top: 60px; /* 留出空间给固定的语言选择按钮 */
   height: 90vh; /* 设置聊天历史区域的高度为视口高度的80% */
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
 }
 
 .chat-message {
@@ -32,28 +28,13 @@
 
 .input-container {
   display: flex;
-<<<<<<< HEAD
-=======
   flex-direction: column; /* 设置为垂直布局 */
   align-items: stretch;   /* 按钮宽度与输入框一致 */
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
   padding: 10px;
   border-top: 1px solid #ccc;
 }
 
 .chat-input {
-<<<<<<< HEAD
-  flex: 1;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.send-button, .record-button {
-  margin-left: 10px;
-  padding: 5px 10px;
-  background-color: #007aff;
-=======
   height: 40px;
   padding: 0 10px;
   margin-bottom: 10px;  /* 给输入框与按钮之间留空 */
@@ -79,12 +60,8 @@
   flex: 1;  /* 让按钮占据相等宽度 */
   padding: 2px;
   background-color: #ff557f;
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
   color: white;
   border: none;
-<<<<<<< HEAD
-  border-radius: 5px;
-=======
   border-radius: 20px;
   cursor: pointer;
   margin-left: 5px;
@@ -156,5 +133,4 @@
   border-radius: 50%;
   margin: 20px 0;
   z-index: 9999; /* 设置一个较大的值来确保它位于最顶层 */
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
 }

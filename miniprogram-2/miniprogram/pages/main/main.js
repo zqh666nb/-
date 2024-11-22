@@ -7,8 +7,6 @@ Page({
     userInput: '',
     chatHistory: [],
     accessToken: '',
-<<<<<<< HEAD
-=======
     lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
     scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
     levels: ['初级', '中级', '高级'],  // 可选择的语言列表
@@ -67,7 +65,6 @@ Page({
         console.log('弹窗选择失败', res);
       }
     });
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
   },
 
   onLoad() {
@@ -200,8 +197,6 @@ Page({
       userInput: e.detail.value,
     });
   },
-<<<<<<< HEAD
-=======
   navigateTomain: function() {
     wx.navigateTo({
       url: '/pages/user_main/main/main'
@@ -215,5 +210,4 @@ Page({
       });
     }).exec();
   }
->>>>>>> 7a901481dd9b78855a360ce556b940c699a484aa
 });

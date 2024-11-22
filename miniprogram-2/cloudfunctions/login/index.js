@@ -23,10 +23,10 @@ exports.main = async (event, context) => {
           nickName: event.nickName,
           avatarUrl: event.avatarUrl,
           createTime: new Date()
+       
         }
       });
-    }
-
+    } 
     return {
       success: true,
       userInfo: {
