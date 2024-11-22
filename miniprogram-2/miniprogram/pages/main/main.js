@@ -10,6 +10,7 @@ Page({
     lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
     scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
     levels: ['初级', '中级', '高级'],  // 可选择的语言列表
+    initialPrompt: '请用英文回答以下问题。' // 引导AI使用英文回答
   },
   showSceneSelect() {
     const that = this;
@@ -134,7 +135,31 @@ Page({
   // 发送消息
   sendMessage() {
     const that = this;
-    const { userInput, accessToken } = this.data;
+    const { userInput, accessToken, chatHistory, initialPrompt } = this.data;
+    
+    // 如果聊天记录为空，先发送引导消息
+    if (chatHistory.length === 0) {
+      wx.request({
+        url: `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=${accessToken}`,
+        method: 'POST',
+        data: {
+          messages: [{ role: 'user', content: initialPrompt }],
+        },
+        header: {
+          'Content-Type': 'application/json',
+        },
+        success(res) {
+          const aiResponse = res.data.result;
+          that.setData({
+            chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+          });
+        },
+        fail(err) {
+          console.error('调用AI服务失败:', err);
+        },
+      });
+    }
+
     if (!userInput.trim()) return;
 
     // 更新聊天记录
