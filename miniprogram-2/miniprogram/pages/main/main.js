@@ -66,6 +66,7 @@ Page({
       }
     });
   },
+
   onLoad() {
     this.getAccessToken();
     this.initRecord();

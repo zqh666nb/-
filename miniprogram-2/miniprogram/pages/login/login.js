@@ -4,14 +4,16 @@ const app = getApp()
 Page({
   data: {},
   onLoad: function () {
-    // 页面加载时的逻辑
+    // 清除之前的登录状态
+    wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('openid');
   },
   handleWechatLogin: function () {
     wx.getUserProfile({
       desc: '用于完善用户资料',
       success: (userProfile) => {
         const userInfo = userProfile.userInfo;
-        
+
         wx.cloud.callFunction({
           name: 'login',
           data: {
@@ -19,7 +21,7 @@ Page({
             avatarUrl: userInfo.avatarUrl
           },
           success: (res) => {
-            const openid = res.result.openid;
+            const openid = res.result.userInfo.openid;
             wx.setStorageSync('openid', openid); // 存储 openid
 
             collection.where({
@@ -34,8 +36,13 @@ Page({
                     createTime: new Date()
                   }
                 }).then((addRes) => {
-                  userInfo._id = addRes._id; // 存储用户的 _id
-                  wx.setStorageSync('userInfo', userInfo);
+                  const completeUserInfo = {
+                    _id: addRes._id,
+                    openid: openid,
+                    nickName: userInfo.nickName,
+                    avatarUrl: userInfo.avatarUrl
+                  };
+                  wx.setStorageSync('userInfo', completeUserInfo);
                   wx.navigateTo({
                     url: '/pages/user_main/main/main'
                   });
@@ -47,8 +54,8 @@ Page({
                   });
                 });
               } else {
-                userInfo._id = checkUser.data[0]._id; // 获取已有用户的 _id
-                wx.setStorageSync('userInfo', userInfo);
+                const existingUser = checkUser.data[0];
+                wx.setStorageSync('userInfo', existingUser);
                 wx.navigateTo({
                   url: '/pages/main/main'
                 });

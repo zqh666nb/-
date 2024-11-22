@@ -1,7 +1,6 @@
 <view class="chat-container">
   <scroll-view scroll-y="true" class="chat-history">
     <block wx:for="{{chatHistory}}" wx:key="index">
-      <image class="avatar {{item.role}}" src="{{item.role === 'user' ? '/images/001.png' : '/images/002.png'}}" />
       <view class="chat-message {{item.role}}">
         <text>{{item.role === 'user' ? '我' : 'AI'}}: {{item.content}}</text>
       </view>
