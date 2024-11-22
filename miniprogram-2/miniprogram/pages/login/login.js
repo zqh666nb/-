@@ -50,7 +50,7 @@ Page({
                 userInfo._id = checkUser.data[0]._id; // 获取已有用户的 _id
                 wx.setStorageSync('userInfo', userInfo);
                 wx.navigateTo({
-                  url: '/pages/user_main/main/main'
+                  url: '/pages/main/main'
                 });
               }
             }).catch(err => {
