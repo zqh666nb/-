@@ -4,7 +4,8 @@ const app = getApp()
 Page({
   data: {},
   onLoad: function () {
-    // 页面加载时的逻辑
+    wx.removeStorageSync('userInfo');
+    wx.removeStorageSync('openid');
   },
   handleWechatLogin: function () {
     wx.getUserProfile({
