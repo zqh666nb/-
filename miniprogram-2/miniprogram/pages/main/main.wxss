@@ -4,41 +4,79 @@
   flex-direction: column;
   height: 100vh;
 }
-
 .chat-history {
   flex: 1;
   padding: 10px;
   overflow-y: scroll;  /* 允许聊天记录滚动 */
-  padding-bottom: 150px; /* 留出空间给发送按钮 */
   margin-top: 60px; /* 留出空间给固定的语言选择按钮 */
-  height: 90vh; /* 设置聊天历史区域的高度为视口高度的80% */
+  margin-bottom: 150px; /* 留出空间给固定的语言选择按钮 */
 }
-
 .chat-message {
+  display: flex;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 15px;
+  align-items: center; /* 垂直居中对齐 */
+  padding: 5px 10px; /* 适当的内边距 */
+  white-space: pre-wrap; /* 允许文本换行 */
+  word-wrap: break-word; /* 自动换行 */
+  word-break: break-word; /* 长单词自动换行 */
+  max-width: 70%; /* 设置消息泡泡最大宽度为屏幕的 80% */
+  margin-left: 10%; /* 距离容器左边 80% 位置 */
   margin-bottom: 10px;
 }
 
+/* 用户消息气泡（我）右对齐 */
 .chat-message.user {
+  background-color: #b3e5fc;
   text-align: right;
 }
+/* AI消息气泡（AI）左对齐 */
 
 .chat-message.ai {
+  background-color: #b3fcd1;
+}
+.avatar {
+  width: 50px;                /* 头像宽度 */
+  height: 50px;               /* 头像高度 */
+  border-radius: 50%;         /* 圆形头像 */
+  margin: 0 10px;             /* 头像与消息的间距 */
+}
+.avatar.user {
+  margin-left: 80%;
+  background-color: #ffc097;
+}
+.avatar.ai {
+  background-color: #ffb4c1;
   text-align: left;
 }
 
 .input-container {
   display: flex;
+  align-items: center;
   flex-direction: column; /* 设置为垂直布局 */
   align-items: stretch;   /* 按钮宽度与输入框一致 */
   padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #e1e1e1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 1000;  /* 确保输入框区域在最上层 */
   border-top: 1px solid #ccc;
 }
 
+/* 输入框 */
 .chat-input {
+  flex: 1;
   height: 40px;
   padding: 0 10px;
+  margin-right: 10px;
   margin-bottom: 10px;  /* 给输入框与按钮之间留空 */
   border-radius: 20px;
+  border: 1px solid #ddd;
   border: 2px solid rgb(216, 151, 151);
   font-size: 14px;
   width:90%;

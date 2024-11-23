@@ -10,7 +10,31 @@ Page({
     lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
     scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
     levels: ['初级', '中级', '高级'],  // 可选择的语言列表
-    initialPrompt: '请用英文回答以下问题。' // 引导AI使用英文回答
+    initialPrompt: 'please use English', // 引导AI使用英文回答
+    exampleAnswers: {
+      '学校': [
+        'May I ask where the library is?',
+        'What is the homework for this class?',
+        'May I borrow your notes?'
+      ],
+      '餐厅': [
+        'May I ask if there are any special dishes？',
+        'This dish should not be too spicy!',
+        'Please give me a glass of water.'
+      ],
+      '地铁': [
+        'May I ask how to get to Beijing Station?',
+        'How long does it take for this subway to reach the terminal station？',
+        'I want to buy a one-way ticket.'
+      ]
+    },
+    currentScene: '学校', // 默认场景改为学校
+    backgroundImages: {
+      '学校': '/images/school_bg.png',
+      '餐厅': '/images/restaurant_bg.png',
+      '地铁': '/images/subway_bg.png'
+    },
+    currentBackground: '/images/school_bg.png', // 默认背景
   },
   showSceneSelect() {
     const that = this;
@@ -37,6 +61,10 @@ Page({
       success(res) {
         // 选择的场景索引是 res.tapIndex
         const selectedScene = that.data.scenes[res.tapIndex];
+        that.setData({
+          currentScene: selectedScene,
+          currentBackground: that.data.backgroundImages[selectedScene]
+        });
         wx.showToast({
           title: `选择了：${selectedScene}`,
           icon: 'none',
@@ -68,7 +96,6 @@ Page({
   },
 
   onLoad() {
-    this.getAccessToken();
     this.initRecord();
   },
 
@@ -105,7 +132,7 @@ Page({
   },
 
   // 获取百度Access Token
-  getAccessToken() {
+  /*getAccessToken() {
     const that = this;
     wx.request({
       url: 'https://aip.baidubce.com/oauth/2.0/token',
@@ -131,33 +158,35 @@ Page({
         console.error('Access Token 请求失败:', err);
       },
     });
-  },
+  },*/
 
   // 发送消息
   sendMessage() {
     const that = this;
-    const { userInput, accessToken, chatHistory, initialPrompt } = this.data;
-    
+    const { userInput, chatHistory, initialPrompt } = this.data;
+
     // 如果聊天记录为空，先发送引导消息
     if (chatHistory.length === 0) {
       wx.request({
-        url: `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=${accessToken}`,
+        url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
         method: 'POST',
         data: {
+          model: "qwen-plus",
           messages: [{ role: 'user', content: initialPrompt }],
         },
         header: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3` // 使用你的API密钥
         },
         success(res) {
-          const aiResponse = res.data.result;
+          const aiResponse = res.data.choices[0].message.content;
           that.setData({
             chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
           });
         },
         fail(err) {
           console.error('调用AI服务失败:', err);
-        },
+        }
       });
     }
 
@@ -171,23 +200,25 @@ Page({
 
     // 调用AI服务
     wx.request({
-      url: `https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=${accessToken}`,
+      url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
       method: 'POST',
       data: {
+        model: "qwen-plus",
         messages: [{ role: 'user', content: userInput }],
       },
       header: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3` // 使用你的API密钥
       },
       success(res) {
-        const aiResponse = res.data.result;
+        const aiResponse = res.data.choices[0].message.content;
         that.setData({
           chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
         });
       },
       fail(err) {
         console.error('调用AI服务失败:', err);
-      },
+      }
     });
   },
 
@@ -197,17 +228,38 @@ Page({
       userInput: e.detail.value,
     });
   },
-  navigateTomain: function() {
+  navigateTomain: function () {
     wx.navigateTo({
       url: '/pages/user_main/main/main'
     });
   },
-  scrollToBottom: function() {
+  scrollToBottom: function () {
     const query = wx.createSelectorQuery();
     query.select('.chat-history').boundingClientRect((rect) => {
       this.setData({
         scrollTop: rect.height // 设置 scrollTop 为 scroll-view 的高度
       });
     }).exec();
-  }
+  },
+  showExamplesByScene() {
+    const examples = this.data.exampleAnswers[this.data.currentScene] || [];
+    if (examples.length === 0) {
+      wx.showToast({
+        title: '该场景暂无示例',
+        icon: 'none'
+      });
+      return;
+    }
+    wx.showActionSheet({
+      itemList: examples,
+      success: (res) => {
+        const selectedExample = examples[res.tapIndex];
+        this.setData({
+          userInput: selectedExample
+        });
+        // 可选：自动发送选中的示例
+        this.sendMessage();
+      }
+    });
+  },
 });
