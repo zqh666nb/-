@@ -4,6 +4,7 @@ const manager = plugin.getRecordRecognitionManager();
 
 Page({
   data: {
+    isRecording: false, // 是否正在录音，控制底部弹窗显示
     userInput: '',
     chatHistory: [],
     accessToken: '',
@@ -124,11 +125,23 @@ Page({
     manager.start({
       lang: 'en_US', // 可以根据需要设置语言
     });
+    this.setData({
+      isRecording: true, // 显示底部弹窗
+    });
+
+    // 你可以在这里启动录音功能（录音功能需要调用微信的录音API）
+    console.log("开始录音");
   },
 
   // 停止录音
   stopRecord() {
     manager.stop();
+    this.setData({
+      isRecording: false, // 隐藏底部弹窗
+    });
+
+    // 结束录音并处理录音结果（可以将录音发送到服务器或者进行其他操作）
+    console.log("停止录音");
   },
 
   // 获取百度Access Token

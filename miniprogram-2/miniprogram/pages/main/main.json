@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "Speak with AI"
+  "component": true,
+  "navigationBarTitleText": "主页",
+  "usingComponents": {}
 }
