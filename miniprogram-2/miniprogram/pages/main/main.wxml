@@ -1,4 +1,5 @@
 <view class="chat-container">
+  <image class="background-img" src="/images/008.png"/>
   <scroll-view scroll-y="true" class="chat-history">
     <block wx:for="{{chatHistory}}" wx:key="index">
       <image class="avatar {{item.role}}" src="{{item.role === 'user' ? '/images/001.png' : '/images/002.png'}}" />
