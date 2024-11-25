@@ -25,13 +25,7 @@
       <button class="record-button" bindtouchstart="startRecord" bindtouchend="stopRecord">按住说话</button>
     </view>
   </view>
-  <view wx:if="{{isRecording}}" class="bottom-popup">
-    <view class="recording-text">全力录音中...</view>
-    <view class="avatar3">
-      <image class="avatar3" src="/images/007.png"></image>
-    </view>
-    <view class="waveform-container">
-      <image class="waveform-gif" src="/images/003.gif" />
-    </view>
+  <view class="feedback-container">
+    <text>{{pronunciationFeedback}}</text>
   </view>
 </view>

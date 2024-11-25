@@ -7,11 +7,12 @@ Page({
     isRecording: false, // 是否正在录音，控制底部弹窗显示
     userInput: '',
     chatHistory: [],
+    pronunciationFeedback: '', // 用于存储发音评估结果
     accessToken: '',
     lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
     scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
     levels: ['初级', '中级', '高级'],  // 可选择的语言列表
-    initialPrompt: 'please use English', // 引导AI使用英文回答
+    initialPrompt: 'i would like to practice speaking in a restaurant setting.', // 引导AI使用英文回答
     exampleAnswers: {
       '学校': [
         'May I ask where the library is?',
@@ -113,6 +114,7 @@ Page({
         that.setData({
           userInput: res.result,
         });
+        that.analyzePronunciation(res.tempFilePath, res.result);
       }
     };
     manager.onError = function (res) {
@@ -144,6 +146,7 @@ Page({
     console.log("停止录音");
   },
 
+  
   // 获取百度Access Token
   /*getAccessToken() {
     const that = this;
@@ -272,6 +275,27 @@ Page({
         });
         // 可选：自动发送选中的示例
         this.sendMessage();
+      }
+    });
+  },
+  analyzePronunciation(filePath, text) {
+    const that = this;
+    wx.uploadFile({
+      url: 'https://your-speech-analysis-api.com/analyze', // 替换为你的语音分析API的URL
+      filePath: filePath,
+      name: 'file',
+      formData: {
+        text: text
+      },
+      success(res) {
+        const data = JSON.parse(res.data);
+        const feedback = `发音评估: ${data.feedback}`; // 假设API返回的结果中有一个feedback字段
+        that.setData({
+          pronunciationFeedback: feedback
+        });
+      },
+      fail(err) {
+        console.error('语音分析失败:', err);
       }
     });
   },
