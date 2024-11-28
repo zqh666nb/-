@@ -16,7 +16,7 @@
     <button class="select-button" bindtap="Select1">场景选择</button>
     <button class="select-button" bindtap="Select2">对话难度</button>
     <button class="select-button" bindtap="showExamplesByScene">示例回答</button>
-    <button class="select-button" bindtap="Select2">翻译</button>
+    <button class="select-button" bindtap="Select2">语音分析</button>
   </view>
   <view class="input-container">
     <input class="chat-input" placeholder="输入消息..." value="{{userInput}}" bindinput="onInputChange" />
@@ -25,7 +25,5 @@
       <button class="record-button" bindtouchstart="startRecord" bindtouchend="stopRecord">按住说话</button>
     </view>
   </view>
-  <view class="feedback-container">
-    <text>{{pronunciationFeedback}}</text>
-  </view>
+
 </view>
