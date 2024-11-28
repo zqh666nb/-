@@ -1,8 +1,8 @@
 <view class="chat-container">
-  <image class="background-img" src="/images/008.png"/>
+  <image class="background-img" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/008.png"/>
   <scroll-view scroll-y="true" class="chat-history">
     <block wx:for="{{chatHistory}}" wx:key="index">
-      <image class="avatar {{item.role}}" src="{{item.role === 'user' ? '/images/001.png' : '/images/002.png'}}" />
+      <image class="avatar {{item.role}}" src="{{item.role === 'user' ? 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/001.png' : 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/002.png'}}" />
       <view class="chat-message {{item.role}}">
         <text>{{item.role === 'user' ? '我' : 'AI'}}: {{item.content}}</text>
       </view>
@@ -10,7 +10,7 @@
   </scroll-view>
   <button class="language-select-button" style="width:110%" bindtap="showSceneSelect">语种选择</button>
   <view class="avatar2" bindtap="navigateTomain">
-    <image class="avatar2" src="/images/001.png"></image>
+    <image class="avatar2" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/001.png"></image>
   </view>
   <view class="select-container">
     <button class="select-button" bindtap="Select1">场景选择</button>
@@ -25,5 +25,16 @@
       <button class="record-button" bindtouchstart="startRecord" bindtouchend="stopRecord">按住说话</button>
     </view>
   </view>
-
+  <view wx:if="{{isRecording}}" class="bottom-popup">
+    <view class="recording-text">全力录音中...</view>
+    <view class="avatar3">
+      <image class="avatar3" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/007.png"></image>
+    </view>
+    <view class="waveform-container">
+      <image class="waveform-gif" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/wave.gif" />
+    </view>
+  </view>
+  <view class="feedback-container">
+    <text>{{pronunciationFeedback}}</text>
+  </view>
 </view>
