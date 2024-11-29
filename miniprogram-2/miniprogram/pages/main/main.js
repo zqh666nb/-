@@ -181,51 +181,86 @@ Page({
             text: text
           },
           success: result => {
-            console.log('云函数调用成功:', result);
+            console.log('云函数调用成功，完整返回结果:', result);
             try {
               if (result.result.code === 200) {
-                const { score, details } = result.result.data;
-                console.log('评测结果:', { score, details });
+                const rawData = result.result.data.raw;
+                console.log('原��评测数据:', JSON.stringify(rawData, null, 2));
+
+                // 检查数据结构
+                if (!rawData) {
+                  throw new Error('评测数据为空');
+                }
+
+                let score = 0;
+                let details = {
+                  pronunciation: 0,
+                  fluency: 0,
+                  integrity: 0
+                };
+
+                // 从read_sentence结构中提取分数
+                if (rawData.read_sentence && 
+                    rawData.read_sentence.rec_paper && 
+                    rawData.read_sentence.rec_paper.read_chapter) {
+                  const scores = rawData.read_sentence.rec_paper.read_chapter;
+                  
+                  // 将5分制转换为100分制
+                  score = parseFloat(scores.total_score || 0) * 20;
+                  details = {
+                    pronunciation: parseFloat(scores.accuracy_score || 0) * 20, // accuracy_score 对应发音准确度
+                    fluency: parseFloat(scores.fluency_score || 0) * 20,
+                    integrity: parseFloat(scores.integrity_score || 0) * 20
+                  };
+                  
+                  console.log('提取的分数:', { score, details });
+                }
+
+                const feedback = `发音评分: ${score.toFixed(1)}分
+发音准确度: ${details.pronunciation.toFixed(1)}分
+流畅度: ${details.fluency.toFixed(1)}分
+完整度: ${details.integrity.toFixed(1)}分`;
                 
-                const feedback = `发音评分: ${score}分
-      发音准确度: ${details.pronunciation}分
-      流畅度: ${details.fluency}分
-      完整度: ${details.integrity}分`;
+                console.log('生成的反馈:', feedback);
                 
-           /*that.setData({
+                that.setData({
                   pronunciationFeedback: feedback,
                   chatHistory: [...that.data.chatHistory, {
                     role: 'ai',
                     content: feedback
                   }]
-                });*/
+                });
 
-                let suggestion = '';
-                if (details.pronunciation < 60) {
-                  suggestion += '建议注意单词发音准确度；';
-                }
-                if (details.fluency < 60) {
-                  suggestion += '建议提高语速流畅度；';
-                }
-                if (details.integrity < 60) {
-                  suggestion += '建议完整读出所有单词；';
-                }
+                // 只有在有实际分数时才显示建议
+                if (score > 0) {
+                  let suggestion = '';
+                  if (details.pronunciation < 60) {
+                    suggestion += '建议注意单词发音准确度；';
+                  }
+                  if (details.fluency < 60) {
+                    suggestion += '建议提高语速流畅度；';
+                  }
+                  if (details.integrity < 60) {
+                    suggestion += '建议完整读出所有单词；';
+                  }
 
-                if (suggestion) {
-                  wx.showModal({
-                    title: '发音建议',
-                    content: suggestion + '要不要再试一次？',
-                    showCancel: true,
-                    confirmText: '再试一次',
-                    cancelText: '继续',
-                    success(modalRes) {
-                      if (modalRes.confirm) {
-                        that.startRecord();
+                  if (suggestion) {
+                    wx.showModal({
+                      title: '发音建议',
+                      content: suggestion + '要不要再试一次？',
+                      showCancel: true,
+                      confirmText: '再试一次',
+                      cancelText: '继续',
+                      success(modalRes) {
+                        if (modalRes.confirm) {
+                          that.startRecord();
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
               } else {
+                console.error('评测返回错误码:', result.result.code);
                 wx.showToast({
                   title: '评测失败，请重试',
                   icon: 'none'
@@ -233,6 +268,8 @@ Page({
               }
             } catch (error) {
               console.error('解析结果失败:', error);
+              console.error('错误堆栈:', error.stack);
+              console.error('原始结果:', result);
               wx.showToast({
                 title: '评测结果解析失败',
                 icon: 'none'
