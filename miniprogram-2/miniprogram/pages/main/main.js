@@ -2,17 +2,30 @@ const app = getApp();
 const plugin = requirePlugin('WechatSI');
 const manager = plugin.getRecordRecognitionManager();
 
+// 导入CryptoJS库
+const CryptoJS = require('/crypto.js'); // 确保路径和文件名正确
+
+// Base64编码函数
+function base64Encode(buffer) {
+  if (!(buffer instanceof ArrayBuffer)) {
+    console.error('base64Encode: 参数不是有效的ArrayBuffer', buffer);
+    return '';
+  }
+  const base64 = wx.arrayBufferToBase64(buffer);
+  return base64;
+}
+
 Page({
   data: {
-    isRecording: false, // 是否正在录音，控制底部弹窗显示
+    isRecording: false,
     userInput: '',
     chatHistory: [],
-    pronunciationFeedback: '', // 用于存储发音评估结果
+    pronunciationFeedback: '',
     accessToken: '',
-    lauguages: ['英语', '汉语', '日语'],  // 可选择的语言列表
-    scenes: ['学校', '餐厅', '地铁'],  // 可选择的场景列表
-    levels: ['初级', '中级', '高级'],  // 可选择的语言列表
-    initialPrompt: 'i would like to practice speaking in a restaurant setting.', // 引导AI使用英文回答
+    lauguages: ['英语', '汉语', '日语'],
+    scenes: ['学校', '餐厅', '地铁'],
+    levels: ['初级', '中级', '高级'],
+    initialPrompt: 'i would like to practice speaking in a restaurant setting.',
     exampleAnswers: {
       '学校': [
         'May I ask where the library is?',
@@ -30,29 +43,33 @@ Page({
         'I want to buy a one-way ticket.'
       ]
     },
-    currentScene: '学校', // 默认场景改为学校
+    currentExamples: [], // 当前可用的示例回答
+    lastAiResponse: '', // 存储最后一次AI的回答
+    currentScene: '学校',
     backgroundImages: {
       '学校': '/images/school_bg.png',
       '餐厅': '/images/restaurant_bg.png',
       '地铁': '/images/subway_bg.png'
     },
-    currentBackground: '/images/school_bg.png', // 默认背景
+    currentBackground: '/images/school_bg.png',
+    lastEvaluationResult: null,
+  
   },
   showSceneSelect() {
     const that = this;
     wx.showActionSheet({
       itemList: that.data.lauguages,
       success(res) {
-        // 选择的场景索引是 res.tapIndex
         const selectedlauguages = that.data.lauguages[res.tapIndex];
         wx.showToast({
           title: `选择了：${selectedlauguages}`,
           icon: 'none',
         });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
       },
       fail(res) {
-        console.log('弹窗选择失败', res);
+        if (res.errMsg !== 'showActionSheet:fail cancel') {
+          console.log('弹窗选择失败', res);
+        }
       }
     });
   },
@@ -61,20 +78,21 @@ Page({
     wx.showActionSheet({
       itemList: that.data.scenes,
       success(res) {
-        // 选择的场景索引是 res.tapIndex
         const selectedScene = that.data.scenes[res.tapIndex];
         that.setData({
           currentScene: selectedScene,
-          currentBackground: that.data.backgroundImages[selectedScene]
+          currentBackground: that.data.backgroundImages[selectedScene],
+          currentExamples: that.data.initialExamples[selectedScene] // 重置为初始示例
         });
         wx.showToast({
           title: `选择了：${selectedScene}`,
           icon: 'none',
         });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
       },
       fail(res) {
-        console.log('弹窗选择失败', res);
+        if (res.errMsg !== 'showActionSheet:fail cancel') {
+          console.log('弹窗选择失败', res);
+        }
       }
     });
   },
@@ -83,16 +101,18 @@ Page({
     wx.showActionSheet({
       itemList: that.data.levels,
       success(res) {
-        // 选择的场景索引是 res.tapIndex
         const selectedlevels = that.data.levels[res.tapIndex];
         wx.showToast({
           title: `选择了：${selectedlevels}`,
           icon: 'none',
         });
-        // 你可以在这里根据选中的场景来更新聊天逻辑或场景数据
+
+
       },
       fail(res) {
-        console.log('弹窗选择失败', res);
+        if (res.errMsg !== 'showActionSheet:fail cancel') {
+          console.log('弹窗选择失败', res);
+        }
       }
     });
   },
@@ -101,7 +121,6 @@ Page({
     this.initRecord();
   },
 
-  // 初始化语音识别
   initRecord() {
     const that = this;
     manager.onRecognize = function (res) {
@@ -114,7 +133,13 @@ Page({
         that.setData({
           userInput: res.result,
         });
-        that.analyzePronunciation(res.tempFilePath, res.result);
+        that.setData({
+          chatHistory: [...that.data.chatHistory, {
+            role: 'user',
+            content: res.result
+          }]
+        });
+        that.sendAudioForEvaluation(res.tempFilePath, res.result);
       }
     };
     manager.onError = function (res) {
@@ -122,66 +147,123 @@ Page({
     };
   },
 
-  // 开始录音
   startRecord() {
     manager.start({
-      lang: 'en_US', // 可以根据需要设置语言
+      lang: 'en_US',
     });
     this.setData({
-      isRecording: true, // 显示底部弹窗
+      isRecording: true,
     });
-
-    // 你可以在这里启动录音功能（录音功能需要调用微信的录音API）
     console.log("开始录音");
   },
 
-  // 停止录音
   stopRecord() {
     manager.stop();
     this.setData({
-      isRecording: false, // 隐藏底部弹窗
+      isRecording: false,
     });
-
-    // 结束录音并处理录音结果（可以将录音发送到服务器或者进行其他操作）
     console.log("停止录音");
   },
 
-  
-  // 获取百度Access Token
-  /*getAccessToken() {
+  sendAudioForEvaluation(filePath, text) {
     const that = this;
-    wx.request({
-      url: 'https://aip.baidubce.com/oauth/2.0/token',
-      method: 'POST',
-      data: {
-        grant_type: 'client_credentials',
-        client_id: 'y6UejyROGJJ0f21LGcNbQ1jZ',
-        client_secret: 'OQLkw7iiEaXEsV9mwMa2pW7uMtjvO7BU',
-      },
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      success(res) {
-        if (res.data.access_token) {
-          that.setData({
-            accessToken: res.data.access_token,
-          });
-        } else {
-          console.error('获取Access Token失败，响应数据:', res.data);
-        }
-      },
-      fail(err) {
-        console.error('Access Token 请求失败:', err);
-      },
-    });
-  },*/
+    console.log('开始发送音频文件进行评测:', { filePath, text });
 
-  // 发送消息
+    wx.showLoading({
+      title: '语音评测中...',
+      mask: true
+    });
+
+    wx.cloud.uploadFile({
+      cloudPath: `audio/${Date.now()}.mp3`,
+      filePath: filePath,
+      success: res => {
+        console.log('音频文件上传成功:', res.fileID);
+
+        wx.cloud.callFunction({
+          name: 'audioEvaluation',
+          data: {
+            audioFileID: res.fileID,
+            text: text
+          },
+          success: result => {
+            console.log('云函数调用成功:', result);
+            try {
+              if (result.result.code === 200) {
+                const { score, details } = result.result.data;
+                console.log('评测结果:', { score, details });
+
+                const feedback = `发音评分: ${score}分
+                发音准确度: ${details.pronunciation}分
+                流畅度: ${details.fluency}分
+                完整度: ${details.integrity}分`;
+
+                that.setData({
+                  pronunciationFeedback: feedback,
+                  globalFeedback: feedback,
+                  chatHistory: [...that.data.chatHistory, {
+                    role: 'ai',
+                    content: feedback
+                  }]
+                });
+
+                let suggestion = '';
+                if (details.pronunciation < 60) {
+                  suggestion += '建议注意单词发音准确度；';
+                }
+                if (details.fluency < 60) {
+                  suggestion += '建议提高语速流畅度；';
+                }
+                if (details.integrity < 60) {
+                  suggestion += '建议完整读出所有单词；';
+                }
+
+                if (suggestion) {
+                  wx.showModal({
+                    title: '发音建议',
+                    content: suggestion + '要不要再试一次？',
+                    showCancel: true,
+                    confirmText: '再试一次',
+                    cancelText: '继续',
+                    success(modalRes) {
+                      if (modalRes.confirm) {
+                        that.startRecord();
+                      }
+                    }
+                  });
+                }
+              } else {
+                wx.showToast({
+                  title: '评测失败，请重试',
+                  icon: 'none'
+                });
+              }
+            } catch (error) {
+              console.error('解析结果失败:', error);
+              wx.showToast({
+                title: '评测结果解析失败',
+                icon: 'none'
+              });
+            }
+          },
+          fail: err => {
+            console.error('云函数调用失败:', err);
+          },
+          complete: () => {
+            wx.hideLoading();
+          }
+        });
+      },
+      fail: err => {
+        console.error('音频文件上传失败:', err);
+      }
+    });
+  },
+
   sendMessage() {
     const that = this;
     const { userInput, chatHistory, initialPrompt } = this.data;
 
-    // 如果聊天记录为空，先发送引导消息
     if (chatHistory.length === 0) {
       wx.request({
         url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
@@ -192,13 +274,15 @@ Page({
         },
         header: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3` // 使用你的API密钥
+          'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3`
         },
         success(res) {
           const aiResponse = res.data.choices[0].message.content;
           that.setData({
             chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+            lastAiResponse: aiResponse,
           });
+          that.generateExamplesFromAiResponse(aiResponse);
         },
         fail(err) {
           console.error('调用AI服务失败:', err);
@@ -208,13 +292,11 @@ Page({
 
     if (!userInput.trim()) return;
 
-    // 更新聊天记录
     this.setData({
       chatHistory: [...this.data.chatHistory, { role: 'user', content: userInput }],
       userInput: '',
     });
 
-    // 调用AI服务
     wx.request({
       url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
       method: 'POST',
@@ -224,13 +306,16 @@ Page({
       },
       header: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3` // 使用你的API密钥
+        'Authorization': `Bearer sk-4143273269e8491d8593d8d356af8be3`
       },
       success(res) {
         const aiResponse = res.data.choices[0].message.content;
         that.setData({
           chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+          lastAiResponse: aiResponse,
         });
+        // 根据AI回答生成新的示例
+        that.generateExamplesFromAiResponse(aiResponse);
       },
       fail(err) {
         console.error('调用AI服务失败:', err);
@@ -238,7 +323,6 @@ Page({
     });
   },
 
-  // 输入框内容变化
   onInputChange(e) {
     this.setData({
       userInput: e.detail.value,
@@ -253,15 +337,18 @@ Page({
     const query = wx.createSelectorQuery();
     query.select('.chat-history').boundingClientRect((rect) => {
       this.setData({
-        scrollTop: rect.height // 设置 scrollTop 为 scroll-view 的高度
+        scrollTop: rect.height
       });
     }).exec();
   },
   showExamplesByScene() {
-    const examples = this.data.exampleAnswers[this.data.currentScene] || [];
+    const examples = this.data.currentExamples.length > 0
+      ? this.data.currentExamples
+      : this.data.initialExamples[this.data.currentScene];
+
     if (examples.length === 0) {
       wx.showToast({
-        title: '该场景暂无示例',
+        title: '暂无示例回答',
         icon: 'none'
       });
       return;
@@ -273,30 +360,32 @@ Page({
         this.setData({
           userInput: selectedExample
         });
-        // 可选：自动发送选中的示例
         this.sendMessage();
       }
     });
   },
-  analyzePronunciation(filePath, text) {
-    const that = this;
-    wx.uploadFile({
-      url: 'https://your-speech-analysis-api.com/analyze', // 替换为你的语音分析API的URL
-      filePath: filePath,
-      name: 'file',
-      formData: {
-        text: text
-      },
-      success(res) {
-        const data = JSON.parse(res.data);
-        const feedback = `发音评估: ${data.feedback}`; // 假设API返回的结果中有一个feedback字段
-        that.setData({
-          pronunciationFeedback: feedback
-        });
-      },
-      fail(err) {
-        console.error('语音分析失败:', err);
-      }
+  generateExamplesFromAiResponse(aiResponse) {
+    // 根据AI回答的内容生成相关的示例回答
+    let newExamples = [];
+
+    // 如果AI回答包含问题，可以生成相关的回答示例
+    if (aiResponse.includes('?') || aiResponse.includes('？')) {
+      newExamples = [
+        'Yes, I would like to know more about that.',
+        'Could you please explain it in detail?',
+        'I understand, thank you for the information.'
+      ];
+    } else {
+      // 如果AI回答是陈述句，生成相关的跟进问题
+      newExamples = [
+        'That sounds interesting, can you tell me more?',
+        'I see, what would you suggest next?',
+        'Thank you, I have another question about that.'
+      ];
+    }
+
+    this.setData({
+      currentExamples: newExamples
     });
   },
 });

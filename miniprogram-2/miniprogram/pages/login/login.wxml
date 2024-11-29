@@ -3,7 +3,7 @@
     <text class="title">Speak With AI</text>
     <text class="subtitle">Welcome back to you, my friend!</text>
   </view>
-  <image class="avatar" src="/images/avatar.png" mode="aspectFit"></image>
+  <image class="avatar" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/avatar.png" mode="aspectFit"></image>
   <button class="login-button wechat-login" bindtap="handleWechatLogin">
     <image class="icon" src="/images/wechat-icon.png"></image>
     微信登录
