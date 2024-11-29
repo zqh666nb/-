@@ -22,7 +22,7 @@ Page({
     chatHistory: [],
     pronunciationFeedback: '',
     accessToken: '',
-    lauguages: ['英语', '汉语', '日语'],
+    lauguages: ['英语', '汉语'],
     scenes: ['学校', '餐厅', '地铁'],
     levels: ['初级', '中级', '高级'],
     initialPrompt: 'i would like to practice speaking in a restaurant setting.',
@@ -50,15 +50,19 @@ Page({
       '地铁': '/images/subway_bg.png'
     },
     currentBackground: '/images/school_bg.png',
+    currentLanguage: '英语',
   },
   showSceneSelect() {
     const that = this;
     wx.showActionSheet({
       itemList: that.data.lauguages,
       success(res) {
-        const selectedlauguages = that.data.lauguages[res.tapIndex];
+        const selectedLanguage = that.data.lauguages[res.tapIndex];
+        that.setData({
+          currentLanguage: selectedLanguage
+        });
         wx.showToast({
-          title: `选择了：${selectedlauguages}`,
+          title: `选择了：${selectedLanguage}`,
           icon: 'none',
         });
       },
@@ -142,13 +146,14 @@ Page({
   },
 
   startRecord() {
+    const lang = this.data.currentLanguage === '英语' ? 'en_US' : 'zh_CN';
     manager.start({
-      lang: 'en_US',
+      lang: lang,
     });
     this.setData({
       isRecording: true,
     });
-    console.log("开始录音");
+    console.log("开始录音，语言：", lang);
   },
 
   stopRecord() {
@@ -162,6 +167,9 @@ Page({
   sendAudioForEvaluation(filePath, text) {
     const that = this;
     console.log('开始发送音频文件进行评测:', { filePath, text });
+    
+    // 根据当前选择的语言判断
+    const isChinese = this.data.currentLanguage === '汉语';
     
     wx.showLoading({
       title: '语音评测中...',
@@ -178,16 +186,16 @@ Page({
           name: 'audioEvaluation',
           data: {
             audioFileID: res.fileID,
-            text: text
+            text: text,
+            language: isChinese ? 'cn' : 'en'
           },
           success: result => {
             console.log('云函数调用成功，完整返回结果:', result);
             try {
               if (result.result.code === 200) {
                 const rawData = result.result.data.raw;
-                console.log('原��评测数据:', JSON.stringify(rawData, null, 2));
+                console.log('原始评测数据:', JSON.stringify(rawData, null, 2));
 
-                // 检查数据结构
                 if (!rawData) {
                   throw new Error('评测数据为空');
                 }
@@ -199,28 +207,49 @@ Page({
                   integrity: 0
                 };
 
-                // 从read_sentence结构中提取分数
-                if (rawData.read_sentence && 
-                    rawData.read_sentence.rec_paper && 
-                    rawData.read_sentence.rec_paper.read_chapter) {
-                  const scores = rawData.read_sentence.rec_paper.read_chapter;
-                  
-                  // 将5分制转换为100分制
-                  score = parseFloat(scores.total_score || 0) * 20;
-                  details = {
-                    pronunciation: parseFloat(scores.accuracy_score || 0) * 20, // accuracy_score 对应发音准确度
-                    fluency: parseFloat(scores.fluency_score || 0) * 20,
-                    integrity: parseFloat(scores.integrity_score || 0) * 20
-                  };
-                  
-                  console.log('提取的分数:', { score, details });
+                if (isChinese) {
+                  // 处理中文评测结果
+                  if (rawData.read_sentence && 
+                      rawData.read_sentence.rec_paper && 
+                      rawData.read_sentence.rec_paper.read_sentence) {
+                    const scores = rawData.read_sentence.rec_paper.read_sentence;
+                    score = parseFloat(scores.total_score || 0);
+                    details = {
+                      pronunciation: parseFloat(scores.phone_score || 0), // 声韵分
+                      fluency: parseFloat(scores.fluency_score || 0),    // 流畅度分
+                      integrity: parseFloat(scores.integrity_score || 0), // 完整度分
+                      tone: parseFloat(scores.tone_score || 0)           // 声调分
+                    };
+                  }
+                } else {
+                  // 处理英文评测结果
+                  if (rawData.read_sentence && 
+                      rawData.read_sentence.rec_paper && 
+                      rawData.read_sentence.rec_paper.read_chapter) {
+                    const scores = rawData.read_sentence.rec_paper.read_chapter;
+                    score = parseFloat(scores.total_score || 0) * 20;
+                    details = {
+                      pronunciation: parseFloat(scores.accuracy_score || 0) * 20,
+                      fluency: parseFloat(scores.fluency_score || 0) * 20,
+                      integrity: parseFloat(scores.integrity_score || 0) * 20
+                    };
+                  }
                 }
 
-                const feedback = `发音评分: ${score.toFixed(1)}分
+                console.log('提取的分数:', { score, details });
+
+                // 生成反馈内容
+                let feedback = isChinese ? 
+                  `发音评分: ${score.toFixed(1)}分
+声韵分: ${details.pronunciation.toFixed(1)}分
+流畅度: ${details.fluency.toFixed(1)}分
+完整度: ${details.integrity.toFixed(1)}分
+声调分: ${details.tone.toFixed(1)}分` :
+                  `发音评分: ${score.toFixed(1)}分
 发音准确度: ${details.pronunciation.toFixed(1)}分
 流畅度: ${details.fluency.toFixed(1)}分
 完整度: ${details.integrity.toFixed(1)}分`;
-                
+
                 console.log('生成的反馈:', feedback);
                 
                 that.setData({
@@ -231,17 +260,18 @@ Page({
                   }]
                 });
 
-                // 只有在有实际分数时才显示建议
+                // 生成建议
                 if (score > 0) {
                   let suggestion = '';
-                  if (details.pronunciation < 60) {
-                    suggestion += '建议注意单词发音准确度；';
-                  }
-                  if (details.fluency < 60) {
-                    suggestion += '建议提高语速流畅度；';
-                  }
-                  if (details.integrity < 60) {
-                    suggestion += '建议完整读出所有单词；';
+                  if (isChinese) {
+                    if (details.pronunciation < 60) suggestion += '声韵发音需要改进；';
+                    if (details.fluency < 60) suggestion += '语速流畅度需要提高；';
+                    if (details.integrity < 60) suggestion += '请完整读出所有字词；';
+                    if (details.tone < 60) suggestion += '声调需要注意准确性；';
+                  } else {
+                    if (details.pronunciation < 60) suggestion += '单词发音需要改进；';
+                    if (details.fluency < 60) suggestion += '语速流畅度需要提高；';
+                    if (details.integrity < 60) suggestion += '请完整读出所有单词；';
                   }
 
                   if (suggestion) {

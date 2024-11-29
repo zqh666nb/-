@@ -38,24 +38,23 @@ function getWsUrl() {
 }
 
 // 发送数据帧
-function sendFrame(ws, data, text, status) {
+function sendFrame(ws, data, text, status, language = 'en') {
   let frame = "";
   switch (status) {
     case FRAME.STATUS_FIRST_FRAME:
-      // 第一次数据发送：
       frame = {
         common: { 
           app_id: config.appid 
         },
         business: {
           sub: "ise",
-          ent: "en_vip", // 英文评测
+          ent: language === 'cn' ? "cn_vip" : "en_vip",
           category: "read_sentence",
           text: `\uFEFF${text}`,
           tte: "utf-8",
           ttp_skip: true,
           cmd: "ssb",
-          aue: "lame", // 使用 mp3 格式
+          aue: "lame",
           auf: "audio/L16;rate=16000"
         },
         data: { 
@@ -65,7 +64,6 @@ function sendFrame(ws, data, text, status) {
       console.log('【发送参数帧】:', frame);
       ws.send(JSON.stringify(frame));
 
-      // 后续数据发送
       frame = {
         common: { 
           app_id: config.appid 
@@ -80,7 +78,6 @@ function sendFrame(ws, data, text, status) {
           data: data.toString('base64') 
         }
       };
-      status = FRAME.STATUS_CONTINUE_FRAME;
       break;
 
     case FRAME.STATUS_CONTINUE_FRAME:
@@ -151,7 +148,7 @@ async function parseXMLResult(base64Data) {
 
 // 修改音频数据处理
 exports.main = async (event, context) => {
-  const { audioFileID, text } = event;
+  const { audioFileID, text, language = 'en' } = event;
   
   try {
     console.log('【开始语音评测】参数:', { audioFileID, text });
@@ -179,13 +176,13 @@ exports.main = async (event, context) => {
         readerStream.push(null);
 
         readerStream.on('data', (chunk) => {
-          sendFrame(ws, chunk, text, status);
+          sendFrame(ws, chunk, text, status, language);
           status = FRAME.STATUS_CONTINUE_FRAME;
         });
 
         readerStream.on('end', () => {
           status = FRAME.STATUS_LAST_FRAME;
-          sendFrame(ws, "", text, status);
+          sendFrame(ws, "", text, status, language);
         });
       });
 
