@@ -1,5 +1,5 @@
 <view class="chat-container">
-  <image class="background-img" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/008.png"/>
+  <image class="background-img" src="{{currentBackground}}"/>
   <scroll-view scroll-y="true" class="chat-history">
     <block wx:for="{{chatHistory}}" wx:key="index">
       <image class="avatar {{item.role}}" src="{{item.role === 'user' ? 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/001.png' : 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/002.png'}}" />
@@ -15,8 +15,8 @@
   <view class="select-container">
     <button class="select-button" bindtap="Select1">场景选择</button>
     <button class="select-button" bindtap="Select2">对话难度</button>
-    <button class="select-button" bindtap="showExamplesByScene">示例回答</button>
-   
+    <button class="select-button" bindtap="showExamplesByScene">示例发问</button>
+
   </view>
   <view class="input-container">
     <input class="chat-input" placeholder="输入消息..." value="{{userInput}}" bindinput="onInputChange" />

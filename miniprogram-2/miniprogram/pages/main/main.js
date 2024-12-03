@@ -18,15 +18,16 @@ function base64Encode(buffer) {
 Page({
   data: {
     isRecording: false,
+    currentBackground: 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/013.jpg',
     userInput: '',
     chatHistory: [],
     pronunciationFeedback: '',
     accessToken: '',
-    lauguages: ['英语', '汉语', '日语'],
+    lauguages: ['英语', '汉语'],
     scenes: ['学校', '餐厅', '地铁'],
     levels: ['初级', '中级', '高级'],
-    initialPrompt: 'i would like to practice speaking in a restaurant setting.',
-    exampleAnswers: {
+    initialPrompt: 'i would like to practice speaking in a school setting,And the answer should be colloquial, fit the scene, and be relatively concise. do not show examples',
+    exampleAsks: {
       '学校': [
         'May I ask where the library is?',
         'What is the homework for this class?',
@@ -47,24 +48,70 @@ Page({
     lastAiResponse: '', // 存储最后一次AI的回答
     currentScene: '学校',
     backgroundImages: {
-      '学校': '/images/school_bg.png',
-      '餐厅': '/images/restaurant_bg.png',
-      '地铁': '/images/subway_bg.png'
+      '学校': 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/013.jpg',
+      '餐厅': 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/009.png',
+      '地铁': 'cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/008.png'
     },
-    currentBackground: '/images/school_bg.png',
-    lastEvaluationResult: null,
-  
+    currentLanguage: '英语',
   },
   showSceneSelect() {
     const that = this;
     wx.showActionSheet({
       itemList: that.data.lauguages,
       success(res) {
-        const selectedlauguages = that.data.lauguages[res.tapIndex];
+        const selectedLanguage = that.data.lauguages[res.tapIndex];
+        that.setData({
+          currentLanguage: selectedLanguage
+        });
         wx.showToast({
-          title: `选择了：${selectedlauguages}`,
+          title: `选择了：${selectedLanguage}`,
           icon: 'none',
         });
+
+        // 更新引导语和示例回答
+        if (selectedLanguage === '汉语') {
+          that.setData({
+            initialPrompt: '我想练习在学校环境中说话。',
+            exampleAsks: {
+              '学校': [
+                '请问图书馆在哪里？',
+                '这门课的作业是什么？',
+                '我可以借你的笔记吗？'
+              ],
+              '餐厅': [
+                '请问有什么特色菜吗？',
+                '这道菜不要太辣！',
+                '请给我一杯水。'
+              ],
+              '地铁': [
+                '请问怎么去北京站？',
+                '这趟地铁到终点站需要多长时间？',
+                '我想买一张单程票。'
+              ]
+            }
+          });
+        } else {
+          that.setData({
+            initialPrompt: 'I would like to practice speaking in a school setting.',
+            exampleAsks: {
+              '学校': [
+                'May I ask where the library is?',
+                'What is the homework for this class?',
+                'May I borrow your notes?'
+              ],
+              '餐厅': [
+                'May I ask if there are any special dishes?',
+                'This dish should not be too spicy!',
+                'Please give me a glass of water.'
+              ],
+              '地铁': [
+                'May I ask how to get to Beijing Station?',
+                'How long does it take for this subway to reach the terminal station?',
+                'I want to buy a one-way ticket.'
+              ]
+            }
+          });
+        }
       },
       fail(res) {
         if (res.errMsg !== 'showActionSheet:fail cancel') {
@@ -75,19 +122,37 @@ Page({
   },
   Select1() {
     const that = this;
+  
     wx.showActionSheet({
       itemList: that.data.scenes,
       success(res) {
         const selectedScene = that.data.scenes[res.tapIndex];
         that.setData({
+          chatHistory: [],
           currentScene: selectedScene,
-          currentBackground: that.data.backgroundImages[selectedScene],
-          currentExamples: that.data.initialExamples[selectedScene] // 重置为初始示例
+          currentBackground: that.data.backgroundImages[selectedScene]
         });
         wx.showToast({
           title: `选择了：${selectedScene}`,
           icon: 'none',
         });
+        // 判断选择的场景是哪一个
+        if (selectedScene === '学校') {
+          that.setData({
+            initialPrompt: '我想练习在学校环境中说话，回答要口语化，不要举例子，相对简洁。',
+         
+          });
+        } else if (selectedScene === '餐厅') {
+          that.setData({
+            initialPrompt: '我想练习在餐厅环境中说话，回答要口语化，不要举例子，相对简洁。',
+          
+          });
+        } else if (selectedScene === '地铁') {
+          that.setData({
+            initialPrompt: '我想练习在地铁环境中说话，回答要口语化，不要举例子，相对简洁。',
+         
+          });
+        }
       },
       fail(res) {
         if (res.errMsg !== 'showActionSheet:fail cancel') {
@@ -107,7 +172,12 @@ Page({
           icon: 'none',
         });
 
-
+        // 显示发音反馈内容
+        wx.showModal({
+          title: '发音反馈',
+          content: that.data.pronunciationFeedback || '没有反馈信息',
+          showCancel: false
+        });
       },
       fail(res) {
         if (res.errMsg !== 'showActionSheet:fail cancel') {
@@ -133,12 +203,6 @@ Page({
         that.setData({
           userInput: res.result,
         });
-        that.setData({
-          chatHistory: [...that.data.chatHistory, {
-            role: 'user',
-            content: res.result
-          }]
-        });
         that.sendAudioForEvaluation(res.tempFilePath, res.result);
       }
     };
@@ -148,13 +212,14 @@ Page({
   },
 
   startRecord() {
+    const lang = this.data.currentLanguage === '英语' ? 'en_US' : 'zh_CN';
     manager.start({
-      lang: 'en_US',
+      lang: lang,
     });
     this.setData({
       isRecording: true,
     });
-    console.log("开始录音");
+    console.log("开始录音，语言：", lang);
   },
 
   stopRecord() {
@@ -169,6 +234,9 @@ Page({
     const that = this;
     console.log('开始发送音频文件进行评测:', { filePath, text });
 
+    // 根据当前选择的语言判断
+    const isChinese = this.data.currentLanguage === '汉语';
+
     wx.showLoading({
       title: '语音评测中...',
       mask: true
@@ -180,59 +248,118 @@ Page({
       success: res => {
         console.log('音频文件上传成功:', res.fileID);
 
+        // 仅传递必要的数据
+        const requestData = {
+          audioFileID: res.fileID,
+          text: text.slice(0, 100), // 截取文本的前100个字符，确保不超长
+          language: isChinese ? 'cn' : 'en'
+        };
+
         wx.cloud.callFunction({
           name: 'audioEvaluation',
-          data: {
-            audioFileID: res.fileID,
-            text: text
-          },
+          data: requestData,
           success: result => {
-            console.log('云函数调用成功:', result);
+            console.log('云函数调用成功，完整返回结果:', result);
             try {
               if (result.result.code === 200) {
-                const { score, details } = result.result.data;
-                console.log('评测结果:', { score, details });
+                const rawData = result.result.data.raw;
+                console.log('原始评测数据:', JSON.stringify(rawData, null, 2));
 
-                const feedback = `发音评分: ${score}分
-                发音准确度: ${details.pronunciation}分
-                流畅度: ${details.fluency}分
-                完整度: ${details.integrity}分`;
+                if (!rawData) {
+                  throw new Error('评测数据为空');
+                }
+
+                let score = 0;
+                let details = {
+                  pronunciation: 0,
+                  fluency: 0,
+                  integrity: 0
+                };
+
+                if (isChinese) {
+                  // 处理中文评测结果
+                  if (rawData.read_sentence &&
+                    rawData.read_sentence.rec_paper &&
+                    rawData.read_sentence.rec_paper.read_sentence) {
+                    const scores = rawData.read_sentence.rec_paper.read_sentence;
+                    score = parseFloat(scores.total_score || 0);
+                    details = {
+                      pronunciation: parseFloat(scores.phone_score || 0), // 声韵分
+                      fluency: parseFloat(scores.fluency_score || 0),    // 流畅度分
+                      integrity: parseFloat(scores.integrity_score || 0), // 完整度分
+                      tone: parseFloat(scores.tone_score || 0)           // 声调分
+                    };
+                  }
+                } else {
+                  // 处理英文评测结果
+                  if (rawData.read_sentence &&
+                    rawData.read_sentence.rec_paper &&
+                    rawData.read_sentence.rec_paper.read_chapter) {
+                    const scores = rawData.read_sentence.rec_paper.read_chapter;
+                    score = parseFloat(scores.total_score || 0) * 20;
+                    details = {
+                      pronunciation: parseFloat(scores.accuracy_score || 0) * 20,
+                      fluency: parseFloat(scores.fluency_score || 0) * 20,
+                      integrity: parseFloat(scores.integrity_score || 0) * 20
+                    };
+                  }
+                }
+
+                console.log('提取的分数:', { score, details });
+
+                // 生成反馈内容
+                let feedback = isChinese ?
+                  `发音评分: ${score.toFixed(1)}分
+声韵分: ${details.pronunciation.toFixed(1)}分
+流畅度: ${details.fluency.toFixed(1)}分
+完整度: ${details.integrity.toFixed(1)}分
+声调分: ${details.tone.toFixed(1)}分` :
+                  `发音评分: ${score.toFixed(1)}分
+发音准确度: ${details.pronunciation.toFixed(1)}分
+流畅度: ${details.fluency.toFixed(1)}分
+完整度: ${details.integrity.toFixed(1)}分`;
+
+                console.log('生成的反馈:', feedback);
 
                 that.setData({
                   pronunciationFeedback: feedback,
-                  globalFeedback: feedback,
                   chatHistory: [...that.data.chatHistory, {
                     role: 'ai',
                     content: feedback
                   }]
                 });
 
-                let suggestion = '';
-                if (details.pronunciation < 60) {
-                  suggestion += '建议注意单词发音准确度；';
-                }
-                if (details.fluency < 60) {
-                  suggestion += '建议提高语速流畅度；';
-                }
-                if (details.integrity < 60) {
-                  suggestion += '建议完整读出所有单词；';
-                }
+                // 生成建议
+                if (score > 0) {
+                  let suggestion = '';
+                  if (isChinese) {
+                    if (details.pronunciation < 60) suggestion += '声韵发音需要改进；';
+                    if (details.fluency < 60) suggestion += '语速流畅度需要提高；';
+                    if (details.integrity < 60) suggestion += '请完整读出所有字词；';
+                    if (details.tone < 60) suggestion += '声调需要注意准确性；';
+                  } else {
+                    if (details.pronunciation < 60) suggestion += '单词发音需要改进；';
+                    if (details.fluency < 60) suggestion += '语速流畅度需要提高；';
+                    if (details.integrity < 60) suggestion += '请完整读出所有单词；';
+                  }
 
-                if (suggestion) {
-                  wx.showModal({
-                    title: '发音建议',
-                    content: suggestion + '要不要再试一次？',
-                    showCancel: true,
-                    confirmText: '再试一次',
-                    cancelText: '继续',
-                    success(modalRes) {
-                      if (modalRes.confirm) {
-                        that.startRecord();
+                  if (suggestion) {
+                    wx.showModal({
+                      title: '发音建议',
+                      content: suggestion + '要不要再试一次？',
+                      showCancel: true,
+                      confirmText: '再试一次',
+                      cancelText: '继续',
+                      success(modalRes) {
+                        if (modalRes.confirm) {
+                          that.startRecord();
+                        }
                       }
-                    }
-                  });
+                    });
+                  }
                 }
               } else {
+                console.error('评测返回错误码:', result.result.code);
                 wx.showToast({
                   title: '评测失败，请重试',
                   icon: 'none'
@@ -240,6 +367,8 @@ Page({
               }
             } catch (error) {
               console.error('解析结果失败:', error);
+              console.error('错误堆栈:', error.stack);
+              console.error('原始结果:', result);
               wx.showToast({
                 title: '评测结果解析失败',
                 icon: 'none'
@@ -271,6 +400,7 @@ Page({
         data: {
           model: "qwen-plus",
           messages: [{ role: 'user', content: initialPrompt }],
+          max_tokens: 150
         },
         header: {
           'Content-Type': 'application/json',
@@ -279,11 +409,10 @@ Page({
         success(res) {
           const aiResponse = res.data.choices[0].message.content;
           that.setData({
-            chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
-            lastAiResponse: aiResponse,
+            chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],        
           });
-          that.generateExamplesFromAiResponse(aiResponse);
         },
+
         fail(err) {
           console.error('调用AI服务失败:', err);
         }
@@ -303,6 +432,7 @@ Page({
       data: {
         model: "qwen-plus",
         messages: [{ role: 'user', content: userInput }],
+        max_tokens: 150
       },
       header: {
         'Content-Type': 'application/json',
@@ -312,10 +442,7 @@ Page({
         const aiResponse = res.data.choices[0].message.content;
         that.setData({
           chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
-          lastAiResponse: aiResponse,
         });
-        // 根据AI回答生成新的示例
-        that.generateExamplesFromAiResponse(aiResponse);
       },
       fail(err) {
         console.error('调用AI服务失败:', err);
@@ -342,13 +469,19 @@ Page({
     }).exec();
   },
   showExamplesByScene() {
-    const examples = this.data.currentExamples.length > 0
-      ? this.data.currentExamples
-      : this.data.initialExamples[this.data.currentScene];
+    // 如果有当前示例，使用当前示例；否则使用初始示例
+    const examples = this.data.exampleAsks[this.data.currentScene] || [];
 
     if (examples.length === 0) {
       wx.showToast({
         title: '暂无示例回答',
+        icon: 'none'
+      });
+      return;
+    }
+    if (examples.length === 0) {
+      wx.showToast({
+        title: '该场景暂��示例',
         icon: 'none'
       });
       return;
@@ -364,28 +497,5 @@ Page({
       }
     });
   },
-  generateExamplesFromAiResponse(aiResponse) {
-    // 根据AI回答的内容生成相关的示例回答
-    let newExamples = [];
-
-    // 如果AI回答包含问题，可以生成相关的回答示例
-    if (aiResponse.includes('?') || aiResponse.includes('？')) {
-      newExamples = [
-        'Yes, I would like to know more about that.',
-        'Could you please explain it in detail?',
-        'I understand, thank you for the information.'
-      ];
-    } else {
-      // 如果AI回答是陈述句，生成相关的跟进问题
-      newExamples = [
-        'That sounds interesting, can you tell me more?',
-        'I see, what would you suggest next?',
-        'Thank you, I have another question about that.'
-      ];
-    }
-
-    this.setData({
-      currentExamples: newExamples
-    });
-  },
+ 
 });
