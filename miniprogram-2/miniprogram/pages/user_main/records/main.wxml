@@ -3,5 +3,51 @@
     <text class="profile-title">学习记录</text>
   </view>
   <view class="background">
+    <!-- 标签页切换 -->
+    <view class="tabs">
+      <view class="tab {{currentTab === 'chat' ? 'active' : ''}}" 
+            bindtap="switchTab" 
+            data-tab="chat">对话记录</view>
+      <view class="tab {{currentTab === 'score' ? 'active' : ''}}" 
+            bindtap="switchTab" 
+            data-tab="score">评分记录</view>
+    </view>
+
+    <!-- 对话记录列表 -->
+    <view class="records-list" wx:if="{{currentTab === 'chat'}}">
+      <view class="clear-btn" bindtap="clearAllRecords" data-type="chat">
+        清空记录
+      </view>
+      <view class="record-item" wx:for="{{chatRecords}}" wx:key="index">
+        <view class="record-content">
+          <view class="user-message">我：{{item.userMessage}}</view>
+          <view class="ai-message">AI：{{item.aiMessage}}</view>
+        </view>
+        <view class="record-time">{{item.time}}</view>
+        <view class="delete-btn" bindtap="deleteRecord" 
+              data-type="chat" data-index="{{index}}">删除</view>
+      </view>
+    </view>
+
+    <!-- 评分记录列表 -->
+    <view class="records-list" wx:if="{{currentTab === 'score'}}">
+      <view class="clear-btn" bindtap="clearAllRecords" data-type="score">
+        清空记录
+      </view>
+      <view class="record-item" wx:for="{{scoreRecords}}" wx:key="index">
+        <view class="score-content">
+          <view class="text">原文：{{item.text}}</view>
+          <view class="score">总分：{{item.score}}</view>
+          <view class="details">
+            <text>发音：{{item.pronunciation}}</text>
+            <text>流畅度：{{item.fluency}}</text>
+            <text>完整度：{{item.integrity}}</text>
+          </view>
+        </view>
+        <view class="record-time">{{item.time}}</view>
+        <view class="delete-btn" bindtap="deleteRecord" 
+              data-type="score" data-index="{{index}}">删除</view>
+      </view>
+    </view>
   </view>
 </view>

@@ -122,7 +122,7 @@ Page({
   },
   Select1() {
     const that = this;
-  
+
     wx.showActionSheet({
       itemList: that.data.scenes,
       success(res) {
@@ -140,17 +140,17 @@ Page({
         if (selectedScene === '学校') {
           that.setData({
             initialPrompt: '我想练习在学校环境中说话，回答要口语化，不要举例子，相对简洁。',
-         
+
           });
         } else if (selectedScene === '餐厅') {
           that.setData({
             initialPrompt: '我想练习在餐厅环境中说话，回答要口语化，不要举例子，相对简洁。',
-          
+
           });
         } else if (selectedScene === '地铁') {
           that.setData({
             initialPrompt: '我想练习在地铁环境中说话，回答要口语化，不要举例子，相对简洁。',
-         
+
           });
         }
       },
@@ -170,13 +170,6 @@ Page({
         wx.showToast({
           title: `选择了：${selectedlevels}`,
           icon: 'none',
-        });
-
-        // 显示发音反馈内容
-        wx.showModal({
-          title: '发音反馈',
-          content: that.data.pronunciationFeedback || '没有反馈信息',
-          showCancel: false
         });
       },
       fail(res) {
@@ -358,6 +351,41 @@ Page({
                     });
                   }
                 }
+
+                // 添加保存评分记录的代码
+                wx.getStorage({
+                  key: 'scoreHistory',
+                  success(res) {
+                    const history = res.data || [];
+                    history.unshift({
+                      text: text,
+                      score: score,
+                      pronunciation: details.pronunciation.toFixed(1),
+                      fluency: details.fluency.toFixed(1),
+                      integrity: details.integrity.toFixed(1),
+                      time: new Date().toLocaleString()
+                    });
+                    wx.setStorage({
+                      key: 'scoreHistory',
+                      data: history
+                    });
+                  },
+                  fail() {
+                    // 如果还没有存储记录，创建新的记录
+                    const history = [{
+                      text: text,
+                      score: score,
+                      pronunciation: details.pronunciation.toFixed(1),
+                      fluency: details.fluency.toFixed(1),
+                      integrity: details.integrity.toFixed(1),
+                      time: new Date().toLocaleString()
+                    }];
+                    wx.setStorage({
+                      key: 'scoreHistory',
+                      data: history
+                    });
+                  }
+                });
               } else {
                 console.error('评测返回错误码:', result.result.code);
                 wx.showToast({
@@ -409,7 +437,22 @@ Page({
         success(res) {
           const aiResponse = res.data.choices[0].message.content;
           that.setData({
-            chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],        
+            chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+          });
+          wx.getStorage({
+            key: 'chatHistory',
+            success(res) {
+              const history = res.data || [];
+              history.unshift({
+                userMessage: userInput,
+                aiMessage: aiResponse,
+                time: new Date().toLocaleString()
+              });
+              wx.setStorage({
+                key: 'chatHistory',
+                data: history
+              });
+            }
           });
         },
 
@@ -442,6 +485,21 @@ Page({
         const aiResponse = res.data.choices[0].message.content;
         that.setData({
           chatHistory: [...that.data.chatHistory, { role: 'ai', content: aiResponse }],
+        });
+        wx.getStorage({
+          key: 'chatHistory',
+          success(res) {
+            const history = res.data || [];
+            history.unshift({
+              userMessage: userInput,
+              aiMessage: aiResponse,
+              time: new Date().toLocaleString()
+            });
+            wx.setStorage({
+              key: 'chatHistory',
+              data: history
+            });
+          }
         });
       },
       fail(err) {
@@ -479,13 +537,6 @@ Page({
       });
       return;
     }
-    if (examples.length === 0) {
-      wx.showToast({
-        title: '该场景暂��示例',
-        icon: 'none'
-      });
-      return;
-    }
     wx.showActionSheet({
       itemList: examples,
       success: (res) => {
@@ -497,5 +548,5 @@ Page({
       }
     });
   },
- 
+
 });

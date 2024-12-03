@@ -4,8 +4,12 @@
     <text class="subtitle">Welcome back to you, my friend!</text>
   </view>
   <image class="avatar" src="cloud://aaaaaauv-0gjpjfhg1fee2e90.6161-aaaaaauv-0gjpjfhg1fee2e90-1330147179/avatar.png" mode="aspectFit"></image>
-  <button class="login-button wechat-login" bindtap="handleWechatLogin">
+  <button class="login-button wechat-login" bindtap="handleWechatLogin" loading="{{isLoading}}" disabled="{{isLoading}}">
     <image class="icon" src="/images/wechat-icon.png"></image>
     微信登录
   </button>
+  <button class="login-button skip-login" bindtap="handleSkipLogin" disabled="{{isLoading}}">
+    暂不登录
+  </button>
+  <text class="tip-text">登录后可保存学习记录哦~</text>
 </view>
